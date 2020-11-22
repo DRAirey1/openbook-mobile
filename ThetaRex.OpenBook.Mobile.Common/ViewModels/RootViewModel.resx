@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="BulkAccountDescription" xml:space="preserve">
+    <value>Generates violations on large blocks of accounts</value>
+    <comment>Generates mutiple violations</comment>
+  </data>
+  <data name="BulkAccountInactiveLabel" xml:space="preserve">
+    <value>Bulk Account</value>
+    <comment>Bulk Operations</comment>
+  </data>
+  <data name="IborScenarioDescription" xml:space="preserve">
+    <value>Imports data from various sources</value>
+    <comment>Imports data from various sources</comment>
+  </data>
+  <data name="IborScenarioInactiveLabel" xml:space="preserve">
+    <value>IBOR</value>
+    <comment>IBOR Scenario</comment>
+  </data>
+  <data name="ResetScenarioDescription" xml:space="preserve">
+    <value>Reset to factory settings</value>
+    <comment>Resets to factory settings</comment>
+  </data>
+  <data name="ResetScenarioInactiveLabel" xml:space="preserve">
+    <value>Reset</value>
+    <comment>Reset Scenario</comment>
+  </data>
+  <data name="RuleParametersDescription" xml:space="preserve">
+    <value>Changes the rule parameters</value>
+    <comment>Changes the rule parameters</comment>
+  </data>
+  <data name="RuleParametersInactiveLabel" xml:space="preserve">
+    <value>Rule Parameters</value>
+    <comment>Rule Parameters</comment>
+  </data>
+  <data name="SingleAccountOperationsDescription" xml:space="preserve">
+    <value>Generates violations on a single account</value>
+    <comment>Generates violations on a single account</comment>
+  </data>
+  <data name="SingleAccountOperationsInactiveLabel" xml:space="preserve">
+    <value>Single Account</value>
+    <comment>Single Account Operations</comment>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Scenarios</value>
+    <comment>Scenarios</comment>
+  </data>
+  <data name="TradingDescription" xml:space="preserve">
+    <value>Drives orders onto the blotter and executes them</value>
+    <comment>Trading tasks</comment>
+  </data>
+  <data name="TradingInactiveLabel" xml:space="preserve">
+    <value>Trading</value>
+    <comment>Trading</comment>
+  </data>
+</root>

@@ -1,0 +1,122 @@
+﻿[
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "quantity": 800,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BCR153" } },
+    "settlementId": { "securityFigiKey": { "figi": "BBG000B9Y5X2" } },
+    "sideCode": "Sell",
+    "sourceOrderId": { "sourceOrderExternalKey": { "externalId": "SOURCE001" } }
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "quantity": 300,
+    "securityId": { "securityFigiKey": { "figi": "BBG000CH53T5" } },
+    "settlementId": { "securityFigiKey": { "figi": "BBG000B9Y5X2" } },
+    "sideCode": "Sell",
+    "sourceOrderId": { "sourceOrderExternalKey": { "externalId": "SOURCE002" } }
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "quantity": 1600,
+    "securityId": { "securityFigiKey": { "figi": "BBG000B9Y5X2" } },
+    "settlementId": { "securityFigiKey": { "figi": "BBG000B9Y5X2" } },
+    "sideCode": "Sell",
+    "sourceOrderId": { "sourceOrderExternalKey": { "externalId": "SOURCE003" } }
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "quantity": 800,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BLNQ16" } },
+    "settlementId": { "securityFigiKey": { "figi": "BBG000B9Y5X2" } },
+    "sideCode": "Sell",
+    "sourceOrderId": { "sourceOrderExternalKey": { "externalId": "SOURCE005" } }
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "quantity": 1100,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BMHZY5" } },
+    "settlementId": { "securityFigiKey": { "figi": "BBG000B9Y5X2" } },
+    "sideCode": "Sell",
+    "sourceOrderId": { "sourceOrderExternalKey": { "externalId": "SOURCE006" } }
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "quantity": 1400,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BMX4N8" } },
+    "settlementId": { "securityFigiKey": { "figi": "BBG000B9Y5X2" } },
+    "sideCode": "Sell",
+    "sourceOrderId": { "sourceOrderExternalKey": { "externalId": "SOURCE007" } }
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "quantity": 300,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BP5522" } },
+    "settlementId": { "securityFigiKey": { "figi": "BBG000B9Y5X2" } },
+    "sideCode": "Buy",
+    "sourceOrderId": { "sourceOrderExternalKey": { "externalId": "SOURCE008" } }
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "quantity": 200,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BW8TX8" } },
+    "settlementId": { "securityFigiKey": { "figi": "BBG000B9Y5X2" } },
+    "sideCode": "Sell",
+    "sourceOrderId": { "sourceOrderExternalKey": { "externalId": "SOURCE010" } }
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "quantity": 5500,
+    "securityId": { "securityFigiKey": { "figi": "BBG000C5HTN7" } },
+    "settlementId": { "securityFigiKey": { "figi": "BBG000B9Y5X2" } },
+    "sideCode": "Sell",
+    "sourceOrderId": { "sourceOrderExternalKey": { "externalId": "SOURCE011" } }
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "quantity": 1800,
+    "securityId": { "securityFigiKey": { "figi": "BBG000GZQBJ1" } },
+    "settlementId": { "securityFigiKey": { "figi": "BBG000B9Y5X2" } },
+    "sideCode": "Sell",
+    "sourceOrderId": { "sourceOrderExternalKey": { "externalId": "SOURCE012" } }
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "quantity": 600,
+    "securityId": { "securityFigiKey": { "figi": "BBG000K4NHJ5" } },
+    "settlementId": { "securityFigiKey": { "figi": "BBG000B9Y5X2" } },
+    "sideCode": "Buy",
+    "sourceOrderId": { "sourceOrderExternalKey": { "externalId": "SOURCE013" } }
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "quantity": 1200,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BWXCP6" } },
+    "settlementId": { "securityFigiKey": { "figi": "BBG000B9Y5X2" } },
+    "sideCode": "Buy",
+    "sourceOrderId": { "sourceOrderExternalKey": { "externalId": "SOURCE016" } }
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "quantity": 400,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BPHFS9" } },
+    "settlementId": { "securityFigiKey": { "figi": "BBG000B9Y5X2" } },
+    "sideCode": "Buy",
+    "sourceOrderId": { "sourceOrderExternalKey": { "externalId": "SOURCE017" } }
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "quantity": 300,
+    "securityId": { "securityFigiKey": { "figi": "BBG000PSL0X0" } },
+    "settlementId": { "securityFigiKey": { "figi": "BBG000B9Y5X2" } },
+    "sideCode": "Sell",
+    "sourceOrderId": { "sourceOrderExternalKey": { "externalId": "SOURCE018" } }
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "quantity": 200,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BH4SB1" } },
+    "settlementId": { "securityFigiKey": { "figi": "BBG000B9Y5X2" } },
+    "sideCode": "Buy",
+    "sourceOrderId": { "sourceOrderExternalKey": { "externalId": "SOURCE019" } }
+  }
+]

@@ -1,0 +1,276 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="PmActiveLabel" xml:space="preserve">
+    <value>Clear PM</value>
+    <comment>Clear PM</comment>
+  </data>
+  <data name="PmDescription" xml:space="preserve">
+    <value>Violates Tabbacco Restricted List</value>
+    <comment>Violates Tabbacco Restricted List</comment>
+  </data>
+  <data name="PmInactiveLabel" xml:space="preserve">
+    <value>Buy PM</value>
+    <comment>Buy PM</comment>
+  </data>
+  <data name="ResetScenariosDescription" xml:space="preserve">
+    <value>Resets all the scenarios</value>
+    <comment>Resets all the scenarios</comment>
+  </data>
+  <data name="ResetScenariosInactiveLabel" xml:space="preserve">
+    <value>Reset Scenarios</value>
+    <comment>Reset Scenarios</comment>
+  </data>
+  <data name="TapActiveLabel" xml:space="preserve">
+    <value>Clear TAP</value>
+    <comment>Clear TAP</comment>
+  </data>
+  <data name="TapDescription" xml:space="preserve">
+    <value>Violates Tabbacco Restricted List</value>
+    <comment>Violates Tabbacco Restricted List</comment>
+  </data>
+  <data name="TapInactiveLabel" xml:space="preserve">
+    <value>Buy TAP</value>
+    <comment>Buy TAP</comment>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Single Account</value>
+    <comment>Single Account</comment>
+  </data>
+  <data name="SamActiveLabel" xml:space="preserve">
+    <value>Clear SAM</value>
+    <comment>Clear SAM</comment>
+  </data>
+  <data name="SamDescription" xml:space="preserve">
+    <value>Violates Alcohol Restricted List</value>
+    <comment>Violates Alcohol Restricted List</comment>
+  </data>
+  <data name="SamInactiveLabel" xml:space="preserve">
+    <value>Buy SAM</value>
+    <comment>Buy SAM</comment>
+  </data>
+  <data name="CashActiveLabel" xml:space="preserve">
+    <value>Withdraw Cash</value>
+    <comment>Clear Cash</comment>
+  </data>
+  <data name="CashDescription" xml:space="preserve">
+    <value>Violates Cash Concentration</value>
+    <comment>Violates Cash Concentration</comment>
+  </data>
+  <data name="CashInactiveLabel" xml:space="preserve">
+    <value>Deposit Cash</value>
+    <comment>Add Cash</comment>
+  </data>
+  <data name="TaxLotsActiveLabel" xml:space="preserve">
+    <value>Clear Tax Lots</value>
+    <comment>Clear Tax Lots</comment>
+  </data>
+  <data name="TaxLotsDescription" xml:space="preserve">
+    <value>Import from Accounting System</value>
+    <comment>Import from Accounting System</comment>
+  </data>
+  <data name="TaxLotsInactiveLabel" xml:space="preserve">
+    <value>Load Tax Lots</value>
+    <comment>Load Tax Lots</comment>
+  </data>
+  <data name="CActiveLabel" xml:space="preserve">
+    <value>Clear C</value>
+    <comment>Clear PM</comment>
+  </data>
+  <data name="CDescription" xml:space="preserve">
+    <value>Violates Industry Concentration</value>
+    <comment>Violates Industry Concentration</comment>
+  </data>
+  <data name="CInactiveLabel" xml:space="preserve">
+    <value>Buy C</value>
+    <comment>Buy PM</comment>
+  </data>
+  <data name="BrkAActiveLabel" xml:space="preserve">
+    <value>Clear BRK.A</value>
+    <comment>Clear BRK.A</comment>
+  </data>
+  <data name="BrkADescription" xml:space="preserve">
+    <value>Violates Issuer Concentration</value>
+    <comment>Violates Issuer Concentration</comment>
+  </data>
+  <data name="BrkAInactiveLabel" xml:space="preserve">
+    <value>Buy BRK.A</value>
+    <comment>Buy BRK.A</comment>
+  </data>
+  <data name="BrkBActiveLabel" xml:space="preserve">
+    <value>Clear BRK.B</value>
+    <comment>Clear BRK.B</comment>
+  </data>
+  <data name="BrkBDescription" xml:space="preserve">
+    <value>Violates Issuer Concentration</value>
+    <comment>Violates Issuer Concentration</comment>
+  </data>
+  <data name="BrkBInactiveLabel" xml:space="preserve">
+    <value>Buy BRK.B</value>
+    <comment>Buy BRK.B</comment>
+  </data>
+  <data name="QqqActiveLabel" xml:space="preserve">
+    <value>Clear QQQ</value>
+    <comment>Clear QQQ</comment>
+  </data>
+  <data name="QqqDescription" xml:space="preserve">
+    <value>Violates Security Type</value>
+    <comment>Violates Security Type</comment>
+  </data>
+  <data name="QqqInactiveLabel" xml:space="preserve">
+    <value>Buy QQQ</value>
+    <comment>Buy QQQ</comment>
+  </data>
+  <data name="AaplActiveLabel" xml:space="preserve">
+    <value>Clear AAPL</value>
+    <comment>Clear AAPL</comment>
+  </data>
+  <data name="AaplDescription" xml:space="preserve">
+    <value>Violates ADV Limit</value>
+    <comment>Violates ADV Limit</comment>
+  </data>
+  <data name="AaplInactiveLabel" xml:space="preserve">
+    <value>Buy AAPL</value>
+    <comment>Buy AAPL</comment>
+  </data>
+  <data name="DerivativeActiveLabel" xml:space="preserve">
+    <value>Clear Derivative</value>
+    <comment>Clear Derivative</comment>
+  </data>
+  <data name="DerivativeDescription" xml:space="preserve">
+    <value>Violates Asset Class Restriction</value>
+    <comment>Violates Asset Class Restriction</comment>
+  </data>
+  <data name="DerivativeInactiveLabel" xml:space="preserve">
+    <value>Buy Derivative</value>
+    <comment>Buy Derivative</comment>
+  </data>
+  <data name="BasketActiveLabel" xml:space="preserve">
+    <value>Clear Basket</value>
+    <comment>Clear Basket</comment>
+  </data>
+  <data name="BasketDescription" xml:space="preserve">
+    <value>A bulk action for a single account</value>
+    <comment>A bulk action for a single account</comment>
+  </data>
+  <data name="BasketInactiveLabel" xml:space="preserve">
+    <value>Execute Basket</value>
+    <comment>Execute Basket</comment>
+  </data>
+</root>

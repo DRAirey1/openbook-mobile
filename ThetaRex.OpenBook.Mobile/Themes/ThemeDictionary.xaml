@@ -1,0 +1,66 @@
+﻿<ResourceDictionary x:Class="ThetaRex.OpenBook.Mobile.Themes.LightThemeDictionary"
+					xmlns:trpfc="using:ThetaRex.OpenBook.Mobile.Controls"
+					xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+					xmlns="http://xamarin.com/schemas/2014/forms">
+    <Color x:Key="LightButtonTextColor">Black</Color>
+    <Color x:Key="DarkButtonTextColor">White</Color>
+    <Color x:Key="DarkDisabledButtonTextColor">#3d3d3d</Color>
+    <Color x:Key="LightDisabledButtonTextColor">LightGray</Color>
+    <Color x:Key="LightDescriptionTextColor">Blue</Color>
+    <Color x:Key="DarkDescriptionTextColor">LightBlue</Color>
+    <Style TargetType="trpfc:DetailButton">
+		<Setter Property="ControlTemplate">
+			<ControlTemplate>
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition/>
+						<RowDefinition/>
+					</Grid.RowDefinitions>
+					<Label FontSize="20"
+						   HorizontalOptions="Center"
+						   IsEnabled="{TemplateBinding IsEnabled}"
+						   Text="{TemplateBinding Label}">
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="TextColor"
+												Value="{AppThemeBinding Light={StaticResource LightButtonTextColor}, Dark={StaticResource DarkButtonTextColor}}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+									<VisualState.Setters>
+										<Setter Property="TextColor"
+												Value="{AppThemeBinding Light={StaticResource LightDisabledButtonTextColor}, Dark={StaticResource DarkDisabledButtonTextColor}}"/>
+                                    </VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Label>
+					<Label FontSize="16"
+						   Grid.Row="1"
+						   HorizontalOptions="Center"
+						   IsEnabled="{TemplateBinding IsEnabled}"
+						   Text="{TemplateBinding Description}">
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="TextColor"
+												Value="{AppThemeBinding Light={StaticResource LightDescriptionTextColor}, Dark={StaticResource DarkDescriptionTextColor}}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+									<VisualState.Setters>
+										<Setter Property="TextColor"
+												Value="{AppThemeBinding Light={StaticResource LightDisabledButtonTextColor}, Dark={StaticResource DarkDisabledButtonTextColor}}"/>
+                                    </VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Label>
+				</Grid>
+			</ControlTemplate>
+		</Setter>
+	</Style>
+</ResourceDictionary>

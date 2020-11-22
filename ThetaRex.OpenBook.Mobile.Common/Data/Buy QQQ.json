@@ -1,0 +1,10 @@
+﻿[
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "orderTypeCode": "Market",
+    "quantity": 100,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BSWV65" } },
+    "sideCode": "Buy",
+    "timeInForceCode": "Day"
+  }
+]

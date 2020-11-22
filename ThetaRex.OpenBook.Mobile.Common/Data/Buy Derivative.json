@@ -1,0 +1,10 @@
+﻿[
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "orderTypeCode": "Market",
+    "quantity": 100,
+    "securityId": { "securityExternalKey": { "externalId": "$SWPRATEAPPL" } },
+    "sideCode": "Buy",
+    "timeInForceCode": "Day"
+  }
+]

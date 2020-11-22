@@ -1,0 +1,30 @@
+﻿<ContentPage x:Class="ThetaRex.OpenBook.Mobile.Views.AboutPage"
+			 Title="{Binding Title}"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns="http://xamarin.com/schemas/2014/forms">
+	<StackLayout HorizontalOptions="Fill"
+				 Spacing="0"
+				 VerticalOptions="FillAndExpand">
+		<Image HorizontalOptions="Center"
+			   Source="openBook128.png"
+			   VerticalOptions="Center"/>
+		<Label FontSize="22"
+			   HorizontalOptions="Center">
+			<Label.FormattedText>
+				<FormattedString>
+					<FormattedString.Spans>
+						<Span FontAttributes="Bold"
+							  FontSize="24"
+							  Text="{Binding Name}"/>
+						<Span Text=" "/>
+						<Span Text="{Binding Version}"/>
+					</FormattedString.Spans>
+				</FormattedString>
+			</Label.FormattedText>
+		</Label>
+		<Label FontFamily="Times New Roman"
+			   LineBreakMode="WordWrap"
+			   Margin="10,30,10,0"
+			   Text="{Binding Description}"/>
+	</StackLayout>
+</ContentPage>

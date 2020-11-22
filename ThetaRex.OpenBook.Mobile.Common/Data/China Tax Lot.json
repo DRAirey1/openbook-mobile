@@ -1,0 +1,302 @@
+﻿[
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BCR153" } },
+    "quantity": 8900,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BJ82Q4" } },
+    "quantity": 6800,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000C6CH10" } },
+    "quantity": 4200,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000CH53T5" } },
+    "quantity": 3700,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000DMBZW1" } },
+    "quantity": 7600,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000B9Y5X2" } },
+    "quantity": 3900,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BCSV38" } },
+    "quantity": 2400,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BF0LJ6" } },
+    "quantity": 8000,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BLNQ16" } },
+    "quantity": 7400,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BMHZY5" } },
+    "quantity": 7000,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BMX4N8" } },
+    "quantity": 21900,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BP5522" } },
+    "quantity": 5900,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BPD257" } },
+    "quantity": 13700,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BR2F10" } },
+    "quantity": 24000,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BR2WS4" } },
+    "quantity": 8400,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BW8TX8" } },
+    "quantity": 6600,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000C0GFS4" } },
+    "quantity": 16500,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000C3JBN9" } },
+    "quantity": 15900,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000C5HTN7" } },
+    "quantity": 10500,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000GZQBJ1" } },
+    "quantity": 11600,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000K4NHJ5" } },
+    "quantity": 7900,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG00LXXHZT7" } },
+    "quantity": 25300,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BKZDM1" } },
+    "quantity": 4700,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BNT1L9" } },
+    "quantity": 5400,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BWLX00" } },
+    "quantity": 15300,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BWXCP6" } },
+    "quantity": 6800,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BPHFS9" } },
+    "quantity": 6400,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000PSL0X0" } },
+    "quantity": 6100,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000BH4SB1" } },
+    "quantity": 7100,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000HS79Q4" } },
+    "quantity": 14800,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  }
+]

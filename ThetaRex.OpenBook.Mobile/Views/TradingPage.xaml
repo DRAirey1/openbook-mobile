@@ -1,0 +1,22 @@
+﻿<ContentPage x:Class="ThetaRex.OpenBook.Mobile.Views.TradingPage"
+			 Title="{Binding Title}"
+			 xmlns:trpfc="clr-namespace:ThetaRex.OpenBook.Mobile.Controls"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns="http://xamarin.com/schemas/2014/forms">
+	<StackLayout>
+        <ListView HasUnevenRows="true"
+				  ItemsSource="{Binding Items}">
+            <ListView.ItemTemplate>
+				<DataTemplate>
+					<ViewCell>
+						<trpfc:DetailButton Command="{Binding Command}"
+											CommandParameter="{Binding CommandParameter}"
+											Description="{Binding Description}"
+											IsEnabled="{Binding IsEnabled}"
+											Label="{Binding Label}"/>
+					</ViewCell>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+	</StackLayout>
+</ContentPage>

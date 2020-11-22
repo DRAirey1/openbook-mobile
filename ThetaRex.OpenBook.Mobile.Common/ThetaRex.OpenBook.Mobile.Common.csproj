@@ -1,0 +1,90 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Configurations>Development;Production</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Development|AnyCPU'">
+    <OutputPath>bin\Development\</OutputPath>
+    <DocumentationFile>bin\Development\ThetaRex.OpenBook.Mobile.Common.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Production|AnyCPU'">
+    <OutputPath>bin\Production\</OutputPath>
+    <DocumentationFile>bin\Production\ThetaRex.OpenBook.Mobile.Common.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Data\Block Order.json" />
+    <None Remove="Data\Buy AAPL.json" />
+    <None Remove="Data\Buy Basket.json" />
+    <None Remove="Data\Buy BRK.A.json" />
+    <None Remove="Data\Buy BRK.B.json" />
+    <None Remove="Data\Buy C.json" />
+    <None Remove="Data\Buy Cash.json" />
+    <None Remove="Data\Buy Derivative.json" />
+    <None Remove="Data\Buy PM.json" />
+    <None Remove="Data\Buy QQQ.json" />
+    <None Remove="Data\Buy SAM.json" />
+    <None Remove="Data\Buy TAP.json" />
+    <None Remove="Data\China Allocation.json" />
+    <None Remove="Data\China Empty Tax Lot.json" />
+    <None Remove="Data\China Index.json" />
+    <None Remove="Data\China Proposed Order.json" />
+    <None Remove="Data\China Source Order.json" />
+    <None Remove="Data\China Tax Lot.json" />
+    <None Remove="Data\China Working Order.json" />
+    <None Remove="Data\DOW Index.json" />
+    <None Remove="Data\SP Index.json" />
+    <None Remove="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Data\Block Order.json" />
+    <EmbeddedResource Include="Data\Buy AAPL.json" />
+    <EmbeddedResource Include="Data\Buy Basket.json" />
+    <EmbeddedResource Include="Data\Buy BRK.A.json" />
+    <EmbeddedResource Include="Data\Buy BRK.B.json" />
+    <EmbeddedResource Include="Data\Buy C.json" />
+    <EmbeddedResource Include="Data\Buy Cash.json" />
+    <EmbeddedResource Include="Data\Buy Derivative.json" />
+    <EmbeddedResource Include="Data\Buy PM.json" />
+    <EmbeddedResource Include="Data\Buy QQQ.json" />
+    <EmbeddedResource Include="Data\Buy SAM.json" />
+    <EmbeddedResource Include="Data\Buy TAP.json" />
+    <EmbeddedResource Include="Data\China Allocation.json" />
+    <EmbeddedResource Include="Data\China Empty Tax Lot.json" />
+    <EmbeddedResource Include="Data\China Index.json" />
+    <EmbeddedResource Include="Data\China Proposed Order.json" />
+    <EmbeddedResource Include="Data\China Source Order.json" />
+    <EmbeddedResource Include="Data\China Tax Lot.json" />
+    <EmbeddedResource Include="Data\China Working Order.json" />
+    <EmbeddedResource Include="Data\DOW Index.json" />
+    <EmbeddedResource Include="Data\SP Index.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="3.1.10" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="ThetaRex.OpenBook.Common" Version="1.0.5" />
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1687" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ThetaRex.Common\ThetaRex.Common\ThetaRex.Common.csproj" />
+  </ItemGroup>
+
+</Project>

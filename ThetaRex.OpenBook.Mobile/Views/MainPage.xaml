@@ -1,0 +1,8 @@
+﻿<MasterDetailPage x:Class="ThetaRex.OpenBook.Mobile.Views.MainPage"
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+                  IsPresented="{Binding Path=IsPresented, Mode=TwoWay}"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <MasterDetailPage.Detail>
+        <NavigationPage/>
+    </MasterDetailPage.Detail>
+</MasterDetailPage>

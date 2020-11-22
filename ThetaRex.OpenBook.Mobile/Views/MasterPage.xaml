@@ -1,0 +1,22 @@
+﻿<ContentPage x:Class="ThetaRex.OpenBook.Mobile.Views.MasterPage"
+			 IconImageSource="hamburger.png"
+			 Title="Menu"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns="http://xamarin.com/schemas/2014/forms">
+	<StackLayout VerticalOptions="FillAndExpand">
+		<ListView HasUnevenRows="True"
+                  Margin="0,2"
+				  ItemsSource="{Binding MenuItems}">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<ViewCell>
+						<Button Command="{Binding Command}"
+								CommandParameter="{Binding CommandParameter}"
+                                ImageSource="{Binding Image}"
+								Text="{Binding Label}"/>
+					</ViewCell>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+	</StackLayout>
+</ContentPage>

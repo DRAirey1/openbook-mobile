@@ -1,0 +1,154 @@
+﻿[
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "orderTypeCode": "Market",
+    "securityId": { "securityFigiKey": { "figi": "BBG000C6CH10" } },
+    "quantity": 1800,
+    "sideCode": "Buy",
+    "timeInForceCode": "Day"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "orderTypeCode": "Market",
+    "securityId": { "securityFigiKey": { "figi": "BBG000CH53T5" } },
+    "quantity": 100,
+    "sideCode": "Buy",
+    "timeInForceCode": "Day"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "orderTypeCode": "Market",
+    "securityId": { "securityFigiKey": { "figi": "BBG000DMBZW1" } },
+    "quantity": 1400,
+    "sideCode": "Sell",
+    "timeInForceCode": "Day"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "orderTypeCode": "Market",
+    "securityId": { "securityFigiKey": { "figi": "BBG000B9Y5X2" } },
+    "quantity": 2000,
+    "sideCode": "Sell",
+    "timeInForceCode": "Day"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "orderTypeCode": "Market",
+    "securityId": { "securityFigiKey": { "figi": "BBG000BF0LJ6" } },
+    "quantity": 400,
+    "sideCode": "Sell",
+    "timeInForceCode": "Day"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "orderTypeCode": "Market",
+    "securityId": { "securityFigiKey": { "figi": "BBG000BMHZY5" } },
+    "quantity": 1000,
+    "sideCode": "Buy",
+    "timeInForceCode": "Day"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "orderTypeCode": "Market",
+    "securityId": { "securityFigiKey": { "figi": "BBG000BP5522" } },
+    "quantity": 2300,
+    "sideCode": "Buy",
+    "timeInForceCode": "Day"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "orderTypeCode": "Market",
+    "securityId": { "securityFigiKey": { "figi": "BBG000BPD257" } },
+    "quantity": 1000,
+    "sideCode": "Sell",
+    "timeInForceCode": "Day"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "orderTypeCode": "Market",
+    "securityId": { "securityFigiKey": { "figi": "BBG000BR2WS4" } },
+    "quantity": 900,
+    "sideCode": "Sell",
+    "timeInForceCode": "Day"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "orderTypeCode": "Market",
+    "securityId": { "securityFigiKey": { "figi": "BBG000BW8TX8" } },
+    "quantity": 400,
+    "sideCode": "Sell",
+    "timeInForceCode": "Day"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "orderTypeCode": "Market",
+    "securityId": { "securityFigiKey": { "figi": "BBG000C0GFS4" } },
+    "quantity": 800,
+    "sideCode": "Sell",
+    "timeInForceCode": "Day"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "orderTypeCode": "Market",
+    "securityId": { "securityFigiKey": { "figi": "BBG000C3JBN9" } },
+    "quantity": 800,
+    "sideCode": "Sell",
+    "timeInForceCode": "Day"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "orderTypeCode": "Market",
+    "securityId": { "securityFigiKey": { "figi": "BBG000C5HTN7" } },
+    "quantity": 1000,
+    "sideCode": "Sell",
+    "timeInForceCode": "Day"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "orderTypeCode": "Market",
+    "securityId": { "securityFigiKey": { "figi": "BBG000K4NHJ5" } },
+    "quantity": 6500,
+    "sideCode": "Buy",
+    "timeInForceCode": "Day"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "orderTypeCode": "Market",
+    "securityId": { "securityFigiKey": { "figi": "BBG000BKZDM1" } },
+    "quantity": 600,
+    "sideCode": "Sell",
+    "timeInForceCode": "Day"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "orderTypeCode": "Market",
+    "securityId": { "securityFigiKey": { "figi": "BBG000BNT1L9" } },
+    "quantity": 1200,
+    "sideCode": "Sell",
+    "timeInForceCode": "Day"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "orderTypeCode": "Market",
+    "securityId": { "securityFigiKey": { "figi": "BBG000BPHFS9" } },
+    "quantity": 300,
+    "sideCode": "Sell",
+    "timeInForceCode": "Day"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "orderTypeCode": "Market",
+    "securityId": { "securityFigiKey": { "figi": "BBG000BH4SB1" } },
+    "quantity": 800,
+    "sideCode": "Buy",
+    "timeInForceCode": "Day"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "orderTypeCode": "Market",
+    "securityId": { "securityFigiKey": { "figi": "BBG000HS79Q4" } },
+    "quantity": 1000,
+    "sideCode": "Sell",
+    "timeInForceCode": "Day"
+  }
+]
