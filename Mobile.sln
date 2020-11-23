@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThetaRex.OpenBook.Mobile.Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThetaRex.OpenBook.Mobile.Repository", "ThetaRex.OpenBook.Mobile.Repository\ThetaRex.OpenBook.Mobile.Repository.csproj", "{D9FEE3B2-CBAB-4ABE-9E80-A42F04710A3C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThetaRex.Common", "..\ThetaRex.Common\ThetaRex.Common\ThetaRex.Common.csproj", "{79E8529C-2F76-44EE-A7F1-0DB247B0B468}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Development|iPhone = Development|iPhone
@@ -132,24 +130,6 @@ Global
 		{D9FEE3B2-CBAB-4ABE-9E80-A42F04710A3C}.Production|iPhoneSimulator.Build.0 = Production|Any CPU
 		{D9FEE3B2-CBAB-4ABE-9E80-A42F04710A3C}.Production|x64.ActiveCfg = Production|Any CPU
 		{D9FEE3B2-CBAB-4ABE-9E80-A42F04710A3C}.Production|x64.Build.0 = Production|Any CPU
-		{79E8529C-2F76-44EE-A7F1-0DB247B0B468}.Development|iPhone.ActiveCfg = Development|Any CPU
-		{79E8529C-2F76-44EE-A7F1-0DB247B0B468}.Development|iPhone.Build.0 = Development|Any CPU
-		{79E8529C-2F76-44EE-A7F1-0DB247B0B468}.Development|iPhoneSimulator.ActiveCfg = Development|Any CPU
-		{79E8529C-2F76-44EE-A7F1-0DB247B0B468}.Development|iPhoneSimulator.Build.0 = Development|Any CPU
-		{79E8529C-2F76-44EE-A7F1-0DB247B0B468}.Development|x64.ActiveCfg = Development|Any CPU
-		{79E8529C-2F76-44EE-A7F1-0DB247B0B468}.Development|x64.Build.0 = Development|Any CPU
-		{79E8529C-2F76-44EE-A7F1-0DB247B0B468}.Local|iPhone.ActiveCfg = Development|Any CPU
-		{79E8529C-2F76-44EE-A7F1-0DB247B0B468}.Local|iPhone.Build.0 = Development|Any CPU
-		{79E8529C-2F76-44EE-A7F1-0DB247B0B468}.Local|iPhoneSimulator.ActiveCfg = Development|Any CPU
-		{79E8529C-2F76-44EE-A7F1-0DB247B0B468}.Local|iPhoneSimulator.Build.0 = Development|Any CPU
-		{79E8529C-2F76-44EE-A7F1-0DB247B0B468}.Local|x64.ActiveCfg = Development|Any CPU
-		{79E8529C-2F76-44EE-A7F1-0DB247B0B468}.Local|x64.Build.0 = Development|Any CPU
-		{79E8529C-2F76-44EE-A7F1-0DB247B0B468}.Production|iPhone.ActiveCfg = Production|Any CPU
-		{79E8529C-2F76-44EE-A7F1-0DB247B0B468}.Production|iPhone.Build.0 = Production|Any CPU
-		{79E8529C-2F76-44EE-A7F1-0DB247B0B468}.Production|iPhoneSimulator.ActiveCfg = Production|Any CPU
-		{79E8529C-2F76-44EE-A7F1-0DB247B0B468}.Production|iPhoneSimulator.Build.0 = Production|Any CPU
-		{79E8529C-2F76-44EE-A7F1-0DB247B0B468}.Production|x64.ActiveCfg = Production|Any CPU
-		{79E8529C-2F76-44EE-A7F1-0DB247B0B468}.Production|x64.Build.0 = Production|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -173,10 +173,6 @@
     <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ThetaRex.Common\ThetaRex.Common\ThetaRex.Common.csproj">
-      <Project>{79e8529c-2f76-44ee-a7f1-0db247b0b468}</Project>
-      <Name>ThetaRex.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ThetaRex.OpenBook.Mobile.Common\ThetaRex.OpenBook.Mobile.Common.csproj">
       <Project>{82750ae1-a362-4f12-a85b-20b27646c213}</Project>
       <Name>ThetaRex.OpenBook.Mobile.Common</Name>

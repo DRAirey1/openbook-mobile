@@ -79,12 +79,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="ThetaRex.Common" Version="1.0.25" />
     <PackageReference Include="ThetaRex.OpenBook.Common" Version="1.0.5" />
     <PackageReference Include="Xamarin.Forms" Version="4.8.0.1687" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\ThetaRex.Common\ThetaRex.Common\ThetaRex.Common.csproj" />
   </ItemGroup>
 
 </Project>
