@@ -6,6 +6,7 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
 {
     using System;
     using System.Collections.Generic;
+    using System.Reflection;
     using System.Threading.Tasks;
     using Microsoft.Extensions.Localization;
     using ThetaRex.Common;
@@ -21,12 +22,12 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
         /// <summary>
         /// The DOW 30 Industrial index.
         /// </summary>
-        private static readonly List<string> DowIndex = ResourceHelper.ReadEmbeddedFile<List<string>>("ThetaRex.OpenBook.Mobile.Common.Data.DOW Index.json");
+        private static readonly List<string> DowIndex = ResourceHelper.ReadEmbeddedFile<List<string>>(Assembly.GetExecutingAssembly(), "ThetaRex.OpenBook.Mobile.Common.Data.DOW Index.json");
 
         /// <summary>
         /// The S and P 500 Index.
         /// </summary>
-        private static readonly List<string> SpxIndex = ResourceHelper.ReadEmbeddedFile<List<string>>("ThetaRex.OpenBook.Mobile.Common.Data.SP Index.json");
+        private static readonly List<string> SpxIndex = ResourceHelper.ReadEmbeddedFile<List<string>>(Assembly.GetExecutingAssembly(), "ThetaRex.OpenBook.Mobile.Common.Data.SP Index.json");
 
         /// <summary>
         /// Translates external symbols into internal primary key values.
