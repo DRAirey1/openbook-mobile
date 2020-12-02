@@ -6,8 +6,7 @@
     "orderTypeCode": "Market",
     "quantity": 800,
     "sideCode": "Sell",
-    "timeInForceCode": "Day",
-    "workingOrderId": { "workingOrderKeyExternalId": { "externalId": "WORKING001" } }
+    "timeInForceCode": "Day"
   },
   {
     "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
@@ -16,8 +15,7 @@
     "orderTypeCode": "Market",
     "quantity": 300,
     "sideCode": "Sell",
-    "timeInForceCode": "Day",
-    "workingOrderId": { "workingOrderKeyExternalId": { "externalId": "WORKING002" } }
+    "timeInForceCode": "Day"
   },
   {
     "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
@@ -26,8 +24,7 @@
     "orderTypeCode": "Market",
     "quantity": 1800,
     "sideCode": "Sell",
-    "timeInForceCode": "Day",
-    "workingOrderId": { "workingOrderKeyExternalId": { "externalId": "WORKING003" } }
+    "timeInForceCode": "Day"
   },
   {
     "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
@@ -36,8 +33,7 @@
     "orderTypeCode": "Market",
     "quantity": 1800,
     "sideCode": "Sell",
-    "timeInForceCode": "Day",
-    "workingOrderId": { "workingOrderKeyExternalId": { "externalId": "WORKING004" } }
+    "timeInForceCode": "Day"
   },
   {
     "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
@@ -46,8 +42,7 @@
     "orderTypeCode": "Market",
     "quantity": 800,
     "sideCode": "Sell",
-    "timeInForceCode": "Day",
-    "workingOrderId": { "workingOrderKeyExternalId": { "externalId": "WORKING005" } }
+    "timeInForceCode": "Day"
   },
   {
     "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
@@ -56,8 +51,7 @@
     "orderTypeCode": "Market",
     "quantity": 1400,
     "sideCode": "Buy",
-    "timeInForceCode": "Day",
-    "workingOrderId": { "workingOrderKeyExternalId": { "externalId": "WORKING006" } }
+    "timeInForceCode": "Day"
   },
   {
     "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
@@ -66,8 +60,7 @@
     "orderTypeCode": "Market",
     "quantity": 1400,
     "sideCode": "Sell",
-    "timeInForceCode": "Day",
-    "workingOrderId": { "workingOrderKeyExternalId": { "externalId": "WORKING007" } }
+    "timeInForceCode": "Day"
   },
   {
     "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
@@ -76,8 +69,7 @@
     "orderTypeCode": "Market",
     "quantity": 400,
     "sideCode": "Buy",
-    "timeInForceCode": "Day",
-    "workingOrderId": { "workingOrderKeyExternalId": { "externalId": "WORKING008" } }
+    "timeInForceCode": "Day"
   },
   {
     "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
@@ -86,8 +78,7 @@
     "orderTypeCode": "Market",
     "quantity": 6000,
     "sideCode": "Buy",
-    "timeInForceCode": "Day",
-    "workingOrderId": { "workingOrderKeyExternalId": { "externalId": "WORKING009" } }
+    "timeInForceCode": "Day"
   },
   {
     "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
@@ -96,8 +87,7 @@
     "orderTypeCode": "Market",
     "quantity": 200,
     "sideCode": "Sell",
-    "timeInForceCode": "Day",
-    "workingOrderId": { "workingOrderKeyExternalId": { "externalId": "WORKING010" } }
+    "timeInForceCode": "Day"
   },
   {
     "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
@@ -106,8 +96,7 @@
     "orderTypeCode": "Market",
     "quantity": 6200,
     "sideCode": "Sell",
-    "timeInForceCode": "Day",
-    "workingOrderId": { "workingOrderKeyExternalId": { "externalId": "WORKING011" } }
+    "timeInForceCode": "Day"
   },
   {
     "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
@@ -116,8 +105,7 @@
     "orderTypeCode": "Market",
     "quantity": 1800,
     "sideCode": "Sell",
-    "timeInForceCode": "Day",
-    "workingOrderId": { "workingOrderKeyExternalId": { "externalId": "WORKING012" } }
+    "timeInForceCode": "Day"
   },
   {
     "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
@@ -126,8 +114,7 @@
     "orderTypeCode": "Market",
     "quantity": 1600,
     "sideCode": "Buy",
-    "timeInForceCode": "Day",
-    "workingOrderId": { "workingOrderKeyExternalId": { "externalId": "WORKING013" } }
+    "timeInForceCode": "Day"
   },
   {
     "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
@@ -136,8 +123,7 @@
     "orderTypeCode": "Market",
     "quantity": 800,
     "sideCode": "Buy",
-    "timeInForceCode": "Day",
-    "workingOrderId": { "workingOrderKeyExternalId": { "externalId": "WORKING014" } }
+    "timeInForceCode": "Day"
   },
   {
     "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
@@ -146,8 +132,7 @@
     "orderTypeCode": "Market",
     "quantity": 500,
     "sideCode": "Buy",
-    "timeInForceCode": "Day",
-    "workingOrderId": { "workingOrderKeyExternalId": { "externalId": "WORKING015" } }
+    "timeInForceCode": "Day"
   },
   {
     "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
@@ -156,8 +141,7 @@
     "orderTypeCode": "Market",
     "quantity": 1200,
     "sideCode": "Buy",
-    "timeInForceCode": "Day",
-    "workingOrderId": { "workingOrderKeyExternalId": { "externalId": "WORKING016" } }
+    "timeInForceCode": "Day"
   },
   {
     "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
@@ -166,8 +150,7 @@
     "orderTypeCode": "Market",
     "quantity": 400,
     "sideCode": "Buy",
-    "timeInForceCode": "Day",
-    "workingOrderId": { "workingOrderKeyExternalId": { "externalId": "WORKING017" } }
+    "timeInForceCode": "Day"
   },
   {
     "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
@@ -176,8 +159,7 @@
     "orderTypeCode": "Market",
     "quantity": 600,
     "sideCode": "Sell",
-    "timeInForceCode": "Day",
-    "workingOrderId": { "workingOrderKeyExternalId": { "externalId": "WORKING018" } }
+    "timeInForceCode": "Day"
   },
   {
     "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
@@ -186,8 +168,7 @@
     "orderTypeCode": "Market",
     "quantity": 200,
     "sideCode": "Buy",
-    "timeInForceCode": "Day",
-    "workingOrderId": { "workingOrderKeyExternalId": { "externalId": "WORKING019" } }
+    "timeInForceCode": "Day"
   },
   {
     "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
@@ -196,8 +177,7 @@
     "orderTypeCode": "Market",
     "quantity": 4700,
     "sideCode": "Buy",
-    "timeInForceCode": "Day",
-    "workingOrderId": { "workingOrderKeyExternalId": { "externalId": "WORKING020" } }
+    "timeInForceCode": "Day"
   },
   {
     "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
@@ -206,7 +186,6 @@
     "orderTypeCode": "Market",
     "quantity": 3800,
     "sideCode": "Buy",
-    "timeInForceCode": "Day",
-    "workingOrderId": { "workingOrderKeyExternalId": { "externalId": "WORKING021" } }
+    "timeInForceCode": "Day"
   }
 ]

@@ -61,6 +61,7 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
                     Command = new Command(() => this.ResetAllScenarios()),
                     Description = this.stringLocalizer["ResetScenarioDescription"],
                     InactiveLabel = this.stringLocalizer["ResetScenarioInactiveLabel"],
+                    IsEnabled = false,
                     Scenario = Scenario.Reset,
                 });
 
@@ -71,6 +72,7 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
                     Command = new Command(async () => await this.pageNavigation.PushAsync(typeof(IborViewModel)).ConfigureAwait(true)),
                     Description = this.stringLocalizer["IborScenarioDescription"],
                     InactiveLabel = this.stringLocalizer["IborScenarioInactiveLabel"],
+                    IsEnabled = false,
                     Scenario = Scenario.GoToIbor,
                 });
 
@@ -81,6 +83,7 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
                     Command = new Command(async () => await this.pageNavigation.PushAsync(typeof(SingleAccountViewModel)).ConfigureAwait(true)),
                     Description = this.stringLocalizer["SingleAccountOperationsDescription"],
                     InactiveLabel = this.stringLocalizer["SingleAccountOperationsInactiveLabel"],
+                    IsEnabled = false,
                     Scenario = Scenario.GoToSingleAccount,
                 });
 
@@ -102,6 +105,7 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
                     Command = new Command(async () => await this.pageNavigation.PushAsync(typeof(RuleParameterViewModel)).ConfigureAwait(true)),
                     Description = this.stringLocalizer["RuleParametersDescription"],
                     InactiveLabel = this.stringLocalizer["RuleParametersInactiveLabel"],
+                    IsEnabled = false,
                     Scenario = Scenario.GoToRuleParameters,
                 });
 
@@ -122,7 +126,11 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
                 this.domain.Initialized.WaitOne();
                 Application.Current.Dispatcher.BeginInvokeOnMainThread(() =>
                 {
+                    this.Items[Scenario.Reset].IsEnabled = true;
+                    this.Items[Scenario.GoToIbor].IsEnabled = true;
+                    this.Items[Scenario.GoToSingleAccount].IsEnabled = true;
                     this.Items[Scenario.GoToBulkAccount].IsEnabled = true;
+                    this.Items[Scenario.GoToRuleParameters].IsEnabled = true;
                     this.Items[Scenario.GoToTrading].IsEnabled = true;
                 });
             });
@@ -157,10 +165,6 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             IEnumerable<SourceOrder> sourceOrders = await this.repository.GetSourceOrdersAsync().ConfigureAwait(true);
             await this.repository.DeleteSourceOrdersAsync(sourceOrders).ConfigureAwait(true);
 
-            // Delete all the working orders.
-            IEnumerable<WorkingOrder> workingOrders = await this.repository.GetWorkingOrdersAsync().ConfigureAwait(true);
-            await this.repository.DeleteWorkingOrdersAsync(workingOrders).ConfigureAwait(true);
-
             // Delete all the proposed orders.
             IEnumerable<ProposedOrder> proposedOrders = await this.repository.GetProposedOrdersAsync().ConfigureAwait(true);
             await this.repository.DeleteProposedOrdersAsync(proposedOrders).ConfigureAwait(true);
@@ -178,10 +182,8 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             IEnumerable<SecurityListMap> securityListMaps = await this.repository.GetSecurityListMapsAsync().ConfigureAwait(true);
             if (pfizer != null && securityListMaps != null)
             {
-                var matchingMaps = from slm in securityListMaps
-                                   where slm.SecurityId == pfizer.SecurityId
-                                   select slm;
-                await this.repository.DeleteSecurityListMapsAsync(matchingMaps).ConfigureAwait(true);
+                var pfizerMaps = securityListMaps.Where(slm => slm.SecurityId == pfizer.SecurityId);
+                await this.repository.DeleteSecurityListMapsAsync(pfizerMaps).ConfigureAwait(true);
             }
 
             // Reset the Category Benchmark to be 14%.
@@ -191,11 +193,6 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
 
             // Broadcast the reset message asking each of the view models to reset their scenarios.
             MessagingCenter.Send(this, MessengerKeys.ResetScenario);
-
-            // Now that all the sources of alerts have been removed, delete all the alerts.
-            // [TODO] See if this is causing the concurrency issues.
-            //            IEnumerable<Alert> alerts = await this.repository.GetAlerts().ConfigureAwait(true);
-            //            await this.repository.DeleteAlerts(alerts).ConfigureAwait(true);
 
             // re-enable all functions after the reset is complete.
             this.Items[Scenario.GoToBulkAccount].IsEnabled = true;

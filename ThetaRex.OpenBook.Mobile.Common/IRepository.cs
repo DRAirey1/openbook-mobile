@@ -17,66 +17,42 @@ namespace ThetaRex.OpenBook.Mobile.Common
         /// <summary>
         /// Adds allocations.
         /// </summary>
-        /// <param name="allocationRequests">A collection of requests to create an allocation.</param>
+        /// <param name="allocations">A collection of requests to create an allocation.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        Task<IEnumerable<Allocation>> AddAllocationsAsync(IEnumerable<AllocationRequest> allocationRequests, CancellationToken cancellationToken = default);
+        Task<IEnumerable<Allocation>> AddAllocationsAsync(IEnumerable<Allocation> allocations, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Adds proposed orders.
         /// </summary>
-        /// <param name="proposedOrderRequests">A batch of requests to create a proposed order.</param>
+        /// <param name="proposedOrders">A batch of requests to create a proposed order.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        Task<IEnumerable<ProposedOrder>> AddProposedOrdersAsync(IEnumerable<ProposedOrderRequest> proposedOrderRequests, CancellationToken cancellationToken = default);
+        Task<IEnumerable<ProposedOrder>> AddProposedOrdersAsync(IEnumerable<ProposedOrder> proposedOrders, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Adds a security to a security list.
         /// </summary>
-        /// <param name="securityListMapRequests">A collection of requests to add a security to a list.</param>
+        /// <param name="securityListMaps">A collection of requests to add a security to a list.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        Task<IEnumerable<SecurityListMap>> AddSecurityListMapsAsync(IEnumerable<SecurityListMapRequest> securityListMapRequests, CancellationToken cancellationToken = default);
+        Task<IEnumerable<SecurityListMap>> AddSecurityListMapsAsync(IEnumerable<SecurityListMap> securityListMaps, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Adds a list of working orders.
+        /// Adds a list of <see cref="SourceOrder"/>s.
         /// </summary>
-        /// <param name="sourceOrderRequests">A batch of requests to create a working order.</param>
+        /// <param name="sourceOrders">A batch of requests to create a working order.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        Task<IEnumerable<SourceOrder>> AddSourceOrdersAsync(IEnumerable<SourceOrderRequest> sourceOrderRequests, CancellationToken cancellationToken = default);
+        Task<IEnumerable<SourceOrder>> AddSourceOrdersAsync(IEnumerable<SourceOrder> sourceOrders, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Adds tax lots.
         /// </summary>
-        /// <param name="taxLotRequests">A collection of requests to create a tax lot.</param>
+        /// <param name="taxLots">A collection of requests to create a tax lot.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        Task<IEnumerable<TaxLot>> AddTaxLotsAsync(IEnumerable<TaxLotRequest> taxLotRequests, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Adds a list of working orders.
-        /// </summary>
-        /// <param name="workingOrderRequests">A batch of requests to create a working order.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        Task<IEnumerable<WorkingOrder>> AddWorkingOrdersAsync(IEnumerable<WorkingOrderRequest> workingOrderRequests, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Bulk adds a list of working orders.
-        /// </summary>
-        /// <param name="workingOrders">A batch of requests to create a working order.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        Task<IEnumerable<WorkingOrder>> BulkAddWorkingOrdersAsync(IEnumerable<WorkingOrder> workingOrders, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Bulk deletes a list of working orders.
-        /// </summary>
-        /// <param name="workingOrders">A list of working orders to delete.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        Task<bool> BulkDeleteWorkingOrdersAsync(IEnumerable<WorkingOrder> workingOrders, CancellationToken cancellationToken = default);
+        Task<IEnumerable<TaxLot>> AddTaxLotsAsync(IEnumerable<TaxLot> taxLots, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Deletes allocations.
@@ -135,14 +111,6 @@ namespace ThetaRex.OpenBook.Mobile.Common
         Task<bool> DeleteSourceOrdersAsync(IEnumerable<SourceOrder> sourceOrders, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Deletes a list of working orders.
-        /// </summary>
-        /// <param name="workingOrders">A list of working orders to delete.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        Task<bool> DeleteWorkingOrdersAsync(IEnumerable<WorkingOrder> workingOrders, CancellationToken cancellationToken = default);
-
-        /// <summary>
         /// Deletes a list of proposed orders.
         /// </summary>
         /// <param name="taxLots">A list of proposed orders to delete.</param>
@@ -187,6 +155,13 @@ namespace ThetaRex.OpenBook.Mobile.Common
         Task<IEnumerable<Blotter>> GetBlottersAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Gets the blotters.
+        /// </summary>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        Task<IEnumerable<Broker>> GetBrokersAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Gets the destination orders.
         /// </summary>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -223,6 +198,22 @@ namespace ThetaRex.OpenBook.Mobile.Common
         Task<IEnumerable<Price>> GetPricesAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Gets a price by the external code.
+        /// </summary>
+        /// <param name="externalId">The unique external identifier.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        Task<Price> GetPriceByExternalIdAsync(string externalId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Gets a price by FIGI code.
+        /// </summary>
+        /// <param name="figi">The unique FIGI identifier.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        Task<Price> GetPriceByFigiAsync(string figi, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Gets the proposed orders.
         /// </summary>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -257,6 +248,13 @@ namespace ThetaRex.OpenBook.Mobile.Common
         /// </summary>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        Task<IEnumerable<SecurityList>> GetSecurityListAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Gets the security list maps.
+        /// </summary>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         Task<IEnumerable<SecurityListMap>> GetSecurityListMapsAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -280,13 +278,6 @@ namespace ThetaRex.OpenBook.Mobile.Common
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         Task<User> GetCurrentUserAsync(CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Gets the working orders.
-        /// </summary>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        Task<IEnumerable<WorkingOrder>> GetWorkingOrdersAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Send orders to the destionation.

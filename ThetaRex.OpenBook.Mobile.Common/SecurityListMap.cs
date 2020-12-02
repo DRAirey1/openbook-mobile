@@ -4,8 +4,6 @@
 // <author>Donald Roy Airey</author>
 namespace ThetaRex.OpenBook.Mobile.Common
 {
-    using Newtonsoft.Json;
-
     /// <summary>
     /// A proposed order.
     /// </summary>

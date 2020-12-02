@@ -6,9 +6,11 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using System.Threading.Tasks;
     using Microsoft.Extensions.Localization;
+    using Newtonsoft.Json.Linq;
     using ThetaRex.Common;
     using ThetaRex.OpenBook.Mobile.Common;
     using Xamarin.Forms;
@@ -18,6 +20,11 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
     /// </summary>
     public class IborViewModel : ScenarioViewModel
     {
+        /// <summary>
+        /// The data domain.
+        /// </summary>
+        private readonly Domain domain;
+
         /// <summary>
         /// Repository of data.
         /// </summary>
@@ -29,15 +36,24 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
         private readonly IStringLocalizer stringLocalizer;
 
         /// <summary>
+        /// The identity of the current user.
+        /// </summary>
+        private readonly User user;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="IborViewModel"/> class.
         /// </summary>
+        /// <param name="domain">The data domain.</param>
         /// <param name="repository">The data repository.</param>
         /// <param name="stringLocalizer">The string localizer.</param>
-        public IborViewModel(IRepository repository, IStringLocalizer<IborViewModel> stringLocalizer)
+        /// <param name="user">The identity of the current user.</param>
+        public IborViewModel(Domain domain, IRepository repository, IStringLocalizer<IborViewModel> stringLocalizer, User user)
         {
             // Initialize the object.
+            this.domain = domain;
             this.repository = repository;
             this.stringLocalizer = stringLocalizer;
+            this.user = user;
 
             // Localist the object.
             this.Title = this.stringLocalizer["Title"];
@@ -180,12 +196,11 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             this.Items[Scenario.ImportAllocations].IsEnabled = false;
 
             // Tell the service to delete the source orders (must be done first) and the working orders.
-            var tuple = (ValueTuple<IEnumerable<WorkingOrder>, IEnumerable<SourceOrder>>)scenarioItemViewModel.Data;
-            var isSourceOrderDeleted = await this.repository.DeleteSourceOrdersAsync(tuple.Item2).ConfigureAwait(true);
-            var isWorkingOrderDeleted = await this.repository.DeleteWorkingOrdersAsync(tuple.Item1).ConfigureAwait(true);
+            var sourceOrders = scenarioItemViewModel.Data as List<SourceOrder>;
+            var isSourceOrderDeleted = await this.repository.DeleteSourceOrdersAsync(sourceOrders).ConfigureAwait(true);
 
             // Reset the view model if the calls to clear the working and source orders was successful.
-            if (isSourceOrderDeleted && isWorkingOrderDeleted)
+            if (isSourceOrderDeleted && isSourceOrderDeleted)
             {
                 scenarioItemViewModel.Data = null;
                 scenarioItemViewModel.IsActive = false;
@@ -233,11 +248,55 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             this.Items[Scenario.Reset].IsEnabled = false;
             this.Items[Scenario.ImportAllocations].IsEnabled = false;
 
-            // The embedded file contains the allocations for this scenario.
-            List<AllocationRequest> allocationRequests = ResourceHelper.ReadEmbeddedFile<List<AllocationRequest>>(
-                Assembly.GetExecutingAssembly(),
-                "ThetaRex.OpenBook.Mobile.Common.Data.China Allocation.json");
-            var data = await this.repository.AddAllocationsAsync(allocationRequests).ConfigureAwait(true);
+            // The embedded file contains the proposed for this scenario.
+            var allocations = new List<Allocation>();
+            var jArray = ResourceHelper.ReadEmbeddedFile<JArray>(Assembly.GetExecutingAssembly(), "ThetaRex.OpenBook.Mobile.Common.Data.China Allocation.json");
+            foreach (JObject jObject in jArray)
+            {
+                // Translate the account id.
+                var accountIdObject = jObject.GetValue("accountId", StringComparison.OrdinalIgnoreCase) as JObject;
+                var accountExternalKey = accountIdObject.GetValue("accountExternalKey", StringComparison.OrdinalIgnoreCase) as JObject;
+                var accountExternalKeyMnemonic = (string)accountExternalKey.GetValue("mnemonic", StringComparison.OrdinalIgnoreCase);
+                accountIdObject.Replace(new JValue(this.domain.FindAccount(accountExternalKeyMnemonic).AccountId));
+
+                // Translate the broker id.
+                var brokerIdObject = jObject.GetValue("brokerId", StringComparison.OrdinalIgnoreCase) as JObject;
+                var brokerSymbolKey = brokerIdObject.GetValue("brokerSymbolKey", StringComparison.OrdinalIgnoreCase) as JObject;
+                var brokerbrokerSymbolKeySymbol = (string)brokerSymbolKey.GetValue("symbol", StringComparison.OrdinalIgnoreCase);
+                brokerIdObject.Replace(new JValue(this.domain.FindBroker(brokerbrokerSymbolKeySymbol).BrokerId));
+
+                // Translate the security id.
+                var securityIdObject = jObject.GetValue("securityId", StringComparison.OrdinalIgnoreCase) as JObject;
+                var securityFigiKey = securityIdObject.GetValue("securityFigiKey", StringComparison.OrdinalIgnoreCase) as JObject;
+                var securityFigiKeyFigi = (string)securityFigiKey.GetValue("figi", StringComparison.OrdinalIgnoreCase);
+                securityIdObject.Replace(new JValue(this.domain.FindSecurityByFigi(securityFigiKeyFigi).SecurityId));
+
+                // Translate the settlement security (currency) id.
+                var settlementIdObject = jObject.GetValue("settlementId", StringComparison.OrdinalIgnoreCase) as JObject;
+                var settlementExternalKey = settlementIdObject.GetValue("securityExternalKey", StringComparison.OrdinalIgnoreCase) as JObject;
+                var settlementExternalId = (string)settlementExternalKey.GetValue("externalId", StringComparison.OrdinalIgnoreCase);
+                settlementIdObject.Replace(new JValue(this.domain.FindSecurityByExternalId(settlementExternalId).SecurityId));
+
+                // Translate the source order identifier.
+                var sourceOrderIdObject = jObject.GetValue("sourceOrderId", StringComparison.OrdinalIgnoreCase) as JObject;
+                var sourceOrderExternalKey = sourceOrderIdObject.GetValue("sourceOrderExternalKey", StringComparison.OrdinalIgnoreCase) as JObject;
+                var sourceOrderExternalKeyExternalId = (string)sourceOrderExternalKey.GetValue("externalId", StringComparison.OrdinalIgnoreCase);
+                ScenarioItemViewModel sourceOrdersScenario = this.Items.Where(svm => svm.Scenario == Scenario.ImportSourceOrders).First();
+                var sourceOrders = sourceOrdersScenario.Data as List<SourceOrder>;
+                var sourceOrder = sourceOrders.Where(so => so.ExternalId == sourceOrderExternalKeyExternalId).First();
+                sourceOrderIdObject.Replace(new JValue(sourceOrder.SourceOrderId));
+
+                // Timestamp the proposed order.
+                jObject.Add("CreatedUserId", this.user.UserId);
+                jObject.Add("CreatedTime", DateTime.Now);
+                jObject.Add("ModifiedUserId", this.user.UserId);
+                jObject.Add("ModifiedTime", DateTime.Now);
+
+                // This is now a prepared proposed order, ready to be sent to the service.
+                allocations.Add(jObject.ToObject<Allocation>());
+            }
+
+            var data = await this.repository.AddAllocationsAsync(allocations).ConfigureAwait(true);
             if (data != null)
             {
                 // Indicate that we've successfully swiched states.
@@ -264,11 +323,35 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             this.Items[Scenario.Reset].IsEnabled = false;
             this.Items[Scenario.ImportProposedOrders].IsEnabled = false;
 
-            // The embedded file contains the proposed orders for this scenario.
-            List<ProposedOrderRequest> proposedOrderRequests = ResourceHelper.ReadEmbeddedFile<List<ProposedOrderRequest>>(
-                Assembly.GetExecutingAssembly(),
-                "ThetaRex.OpenBook.Mobile.Common.Data.China Proposed Order.json");
-            var data = await this.repository.AddProposedOrdersAsync(proposedOrderRequests).ConfigureAwait(true);
+            // The embedded file contains the proposed for this scenario.
+            var proposedOrders = new List<ProposedOrder>();
+            var jArray = ResourceHelper.ReadEmbeddedFile<JArray>(Assembly.GetExecutingAssembly(), "ThetaRex.OpenBook.Mobile.Common.Data.China Proposed Order.json");
+            foreach (JObject jObject in jArray)
+            {
+                // Translate the account id.
+                var accountIdObject = jObject.GetValue("accountId", StringComparison.OrdinalIgnoreCase) as JObject;
+                var accountExternalKey = accountIdObject.GetValue("accountExternalKey", StringComparison.OrdinalIgnoreCase) as JObject;
+                var accountExternalKeyMnemonic = (string)accountExternalKey.GetValue("mnemonic", StringComparison.OrdinalIgnoreCase);
+                accountIdObject.Replace(new JValue(this.domain.FindAccount(accountExternalKeyMnemonic).AccountId));
+
+                // Translate the security id.
+                var securityIdObject = jObject.GetValue("securityId", StringComparison.OrdinalIgnoreCase) as JObject;
+                var securityFigiKey = securityIdObject.GetValue("securityFigiKey", StringComparison.OrdinalIgnoreCase) as JObject;
+                var securityFigiKeyFigi = (string)securityFigiKey.GetValue("figi", StringComparison.OrdinalIgnoreCase);
+                securityIdObject.Replace(new JValue(this.domain.FindSecurityByFigi(securityFigiKeyFigi).SecurityId));
+
+                // Timestamp the proposed order.
+                jObject.Add("CreatedUserId", this.user.UserId);
+                jObject.Add("CreatedTime", DateTime.Now);
+                jObject.Add("ModifiedUserId", this.user.UserId);
+                jObject.Add("ModifiedTime", DateTime.Now);
+
+                // This is now a prepared proposed order, ready to be sent to the service.
+                proposedOrders.Add(jObject.ToObject<ProposedOrder>());
+            }
+
+            // Send the translated orders to the web service.
+            var data = await this.repository.AddProposedOrdersAsync(proposedOrders).ConfigureAwait(true);
             if (data != null)
             {
                 // Indicate that we've successfully swiched states.
@@ -291,23 +374,39 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             this.Items[Scenario.Reset].IsEnabled = false;
             this.Items[Scenario.ImportSourceOrders].IsEnabled = false;
 
-            // The embedded file contains the working orders for this scenario.
-            List<WorkingOrderRequest> workingOrderRequests = ResourceHelper.ReadEmbeddedFile<List<WorkingOrderRequest>>(
-                Assembly.GetExecutingAssembly(),
-                "ThetaRex.OpenBook.Mobile.Common.Data.China Working Order.json");
-            var workingOrders = await this.repository.AddWorkingOrdersAsync(workingOrderRequests).ConfigureAwait(true);
-
             // The embedded file contains the source orders for this scenario.
-            List<SourceOrderRequest> sourceOrderRequests = ResourceHelper.ReadEmbeddedFile<List<SourceOrderRequest>>(
-                Assembly.GetExecutingAssembly(),
-                "ThetaRex.OpenBook.Mobile.Common.Data.China Source Order.json");
-            var sourceOrders = await this.repository.AddSourceOrdersAsync(sourceOrderRequests).ConfigureAwait(true);
+            var sourceOrders = new List<SourceOrder>();
+            var jArray = ResourceHelper.ReadEmbeddedFile<JArray>(Assembly.GetExecutingAssembly(), "ThetaRex.OpenBook.Mobile.Common.Data.China Source Order.json");
+            foreach (JObject jObject in jArray)
+            {
+                // Translate the account id.
+                var accountIdObject = jObject.GetValue("accountId", StringComparison.OrdinalIgnoreCase) as JObject;
+                var accountExternalKey = accountIdObject.GetValue("accountExternalKey", StringComparison.OrdinalIgnoreCase) as JObject;
+                var accountExternalKeyMnemonic = (string)accountExternalKey.GetValue("mnemonic", StringComparison.OrdinalIgnoreCase);
+                accountIdObject.Replace(new JValue(this.domain.FindAccount(accountExternalKeyMnemonic).AccountId));
+
+                // Translate the security id.
+                var securityIdObject = jObject.GetValue("securityId", StringComparison.OrdinalIgnoreCase) as JObject;
+                var securityFigiKey = securityIdObject.GetValue("securityFigiKey", StringComparison.OrdinalIgnoreCase) as JObject;
+                var securityFigiKeyFigi = (string)securityFigiKey.GetValue("figi", StringComparison.OrdinalIgnoreCase);
+                securityIdObject.Replace(new JValue(this.domain.FindSecurityByFigi(securityFigiKeyFigi).SecurityId));
+
+                // Timestamp the source order.
+                jObject.Add("CreatedUserId", this.user.UserId);
+                jObject.Add("CreatedTime", DateTime.Now);
+                jObject.Add("ModifiedUserId", this.user.UserId);
+                jObject.Add("ModifiedTime", DateTime.Now);
+
+                // This is now a prepared source order, ready to be sent to the service.
+                sourceOrders.Add(jObject.ToObject<SourceOrder>());
+            }
 
             // If we successfully created the working and their source orders, then change the state of the view model.
-            if (workingOrders != null && sourceOrders != null)
+            var data = await this.repository.AddSourceOrdersAsync(sourceOrders).ConfigureAwait(true);
+            if (data != null)
             {
                 // Indicate that we've successfully swiched states.
-                scenarioItemViewModel.Data = (workingOrders, sourceOrders);
+                scenarioItemViewModel.Data = data;
                 scenarioItemViewModel.IsActive = true;
 
                 // We can't load allocations until we've loaded the source orders against which those allocations can be posted.
@@ -330,10 +429,28 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             this.Items[Scenario.ImportTaxLots].IsEnabled = false;
 
             // The embedded file contains the tax lots for this scenario.
-            List<TaxLotRequest> taxLotRequests = ResourceHelper.ReadEmbeddedFile<List<TaxLotRequest>>(
-                Assembly.GetExecutingAssembly(),
-                "ThetaRex.OpenBook.Mobile.Common.Data.China Tax Lot.json");
-            var data = await this.repository.AddTaxLotsAsync(taxLotRequests).ConfigureAwait(true);
+            var taxLots = new List<TaxLot>();
+            var jArray = ResourceHelper.ReadEmbeddedFile<JArray>(Assembly.GetExecutingAssembly(), "ThetaRex.OpenBook.Mobile.Common.Data.China Tax Lot.json");
+            foreach (JObject jObject in jArray)
+            {
+                // Translate the account id.
+                var accountIdObject = jObject.GetValue("accountId", StringComparison.OrdinalIgnoreCase) as JObject;
+                var accountExternalKey = accountIdObject.GetValue("accountExternalKey", StringComparison.OrdinalIgnoreCase) as JObject;
+                var accountExternalKeyMnemonic = (string)accountExternalKey.GetValue("mnemonic", StringComparison.OrdinalIgnoreCase);
+                accountIdObject.Replace(new JValue(this.domain.FindAccount(accountExternalKeyMnemonic).AccountId));
+
+                // Translate the security id.
+                var securityIdObject = jObject.GetValue("securityId", StringComparison.OrdinalIgnoreCase) as JObject;
+                var securityFigiKey = securityIdObject.GetValue("securityFigiKey", StringComparison.OrdinalIgnoreCase) as JObject;
+                var securityFigiKeyFigi = (string)securityFigiKey.GetValue("figi", StringComparison.OrdinalIgnoreCase);
+                securityIdObject.Replace(new JValue(this.domain.FindSecurityByFigi(securityFigiKeyFigi).SecurityId));
+
+                // This is now a prepared tax lot, ready to be sent to the service.
+                taxLots.Add(jObject.ToObject<TaxLot>());
+            }
+
+            // Now that the external identifiers have been translated, send the tax lots to the web service.
+            var data = await this.repository.AddTaxLotsAsync(taxLots).ConfigureAwait(true);
             if (data != null)
             {
                 scenarioItemViewModel.Data = data;
@@ -373,10 +490,9 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             ScenarioItemViewModel sourceOrderViewModel = this.Items[Scenario.ImportSourceOrders];
             if (sourceOrderViewModel.IsActive)
             {
-                var tuple = (ValueTuple<IEnumerable<WorkingOrder>, IEnumerable<SourceOrder>>)sourceOrderViewModel.Data;
-                var isSourceOrderDeleted = await this.repository.DeleteSourceOrdersAsync(tuple.Item2).ConfigureAwait(true);
-                var isWorkingOrderDeleted = await this.repository.DeleteWorkingOrdersAsync(tuple.Item1).ConfigureAwait(true);
-                if (isSourceOrderDeleted && isWorkingOrderDeleted)
+                var sourceOrders = sourceOrderViewModel.Data as List<SourceOrder>;
+                var isSourceOrderDeleted = await this.repository.DeleteSourceOrdersAsync(sourceOrders).ConfigureAwait(true);
+                if (isSourceOrderDeleted)
                 {
                     sourceOrderViewModel.Data = null;
                     sourceOrderViewModel.IsActive = false;

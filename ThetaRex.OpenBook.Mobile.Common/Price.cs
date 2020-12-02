@@ -15,6 +15,11 @@ namespace ThetaRex.OpenBook.Mobile.Common
         public decimal ClosePrice { get; set; }
 
         /// <summary>
+        /// Gets or sets the unique external identifier.
+        /// </summary>
+        public string ExternalId { get; set; }
+
+        /// <summary>
         /// Gets or sets the unique FIGI identifier.
         /// </summary>
         public string Figi { get; set; }

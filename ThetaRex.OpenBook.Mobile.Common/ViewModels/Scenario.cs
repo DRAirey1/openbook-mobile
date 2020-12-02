@@ -107,7 +107,7 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
         /// <summary>
         /// Import the DOW 30 orders.
         /// </summary>
-        ImportDowOrders,
+        ImportSingleAccount,
 
         /// <summary>
         /// Import Proposed Orders.
@@ -122,7 +122,7 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
         /// <summary>
         /// Import the S &amp; P 500 orders.
         /// </summary>
-        ImportSpxOrders,
+        ImportBulkAccount,
 
         /// <summary>
         /// Import Tax Lots.

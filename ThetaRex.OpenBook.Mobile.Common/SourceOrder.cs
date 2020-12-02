@@ -5,7 +5,6 @@
 namespace ThetaRex.OpenBook.Mobile.Common
 {
     using System;
-    using Newtonsoft.Json;
     using ThetaRex.OpenBook.Common;
 
     /// <summary>
@@ -27,6 +26,11 @@ namespace ThetaRex.OpenBook.Mobile.Common
         /// Gets or sets the time this record was created.
         /// </summary>
         public DateTime CreatedTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the external identifier.
+        /// </summary>
+        public string ExternalId { get; set; }
 
         /// <summary>
         /// Gets or sets the unique identifier of the user who last modified this record.
@@ -72,10 +76,5 @@ namespace ThetaRex.OpenBook.Mobile.Common
         /// Gets or sets the time in force.
         /// </summary>
         public TimeInForceCode TimeInForce { get; set; }
-
-        /// <summary>
-        /// Gets or sets the unique working order identifier.
-        /// </summary>
-        public int WorkingOrderId { get; set; }
     }
 }

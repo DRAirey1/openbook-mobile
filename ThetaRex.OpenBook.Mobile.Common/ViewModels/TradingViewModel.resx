@@ -51,29 +51,29 @@
     <value>Reset Scenarios</value>
     <comment>Reset Scenarios</comment>
   </data>
-  <data name="ImportDowActiveLabel" xml:space="preserve">
-    <value>Clear Optimized Desk Orders</value>
-    <comment>Clear Optimized Desk Orders</comment>
+  <data name="ImportSingleActiveLabel" xml:space="preserve">
+    <value>Clear Single Account Optimized Orders</value>
+    <comment>Clear Single Account Optimized Orders</comment>
   </data>
-  <data name="ImportDowDescription" xml:space="preserve">
-    <value>Import desk orders from portfolio optimizer</value>
-    <comment>Import desk orders from portfolio optimizer</comment>
+  <data name="ImportSingleDescription" xml:space="preserve">
+    <value>Import single account from portfolio optimizer</value>
+    <comment>Import single account from portfolio optimizer</comment>
   </data>
-  <data name="ImportDowInactiveLabel" xml:space="preserve">
-    <value>Load Optimized Desk Orders</value>
-    <comment>Load Optimized Desk Orders</comment>
+  <data name="ImportSingleInactiveLabel" xml:space="preserve">
+    <value>Load Single Account Optimized Orders</value>
+    <comment>Load Single Account Optimized Orders</comment>
   </data>
-  <data name="ImportSpxActiveLabel" xml:space="preserve">
-    <value>Clear Index Orders</value>
-    <comment>Clear Index Orders</comment>
+  <data name="ImportBulkActiveLabel" xml:space="preserve">
+    <value>Clear Bulk Account Optimized Orders</value>
+    <comment>Clear Bulk Account Optimized Orders</comment>
   </data>
-  <data name="ImportSpxDescription" xml:space="preserve">
-    <value>Import desk orders from S&amp;P 500 Index</value>
-    <comment>Import desk orders from S&amp;P 500 Index</comment>
+  <data name="ImportBulkDescription" xml:space="preserve">
+    <value>Import multiple account optimizations</value>
+    <comment>Import multiple account optimizations</comment>
   </data>
-  <data name="ImportSpxInactiveLabel" xml:space="preserve">
-    <value>Load Index Orders</value>
-    <comment>Load Index Orders</comment>
+  <data name="ImportBulkInactiveLabel" xml:space="preserve">
+    <value>Load Bulk Account Optimized Orders</value>
+    <comment>Load Bulk Account Optimized Orders</comment>
   </data>
   <data name="SendOrdersDescription" xml:space="preserve">
     <value>Send orders to an electronic broker</value>

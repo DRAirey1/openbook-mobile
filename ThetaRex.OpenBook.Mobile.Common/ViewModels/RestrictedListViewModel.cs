@@ -16,6 +16,11 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
     public class RestrictedListViewModel : ScenarioViewModel
     {
         /// <summary>
+        /// The data domain.
+        /// </summary>
+        private readonly Domain domain;
+
+        /// <summary>
         /// Repository of data.
         /// </summary>
         private readonly IRepository repository;
@@ -28,11 +33,13 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="RestrictedListViewModel"/> class.
         /// </summary>
+        /// <param name="domain">The data domain.</param>
         /// <param name="repository">The data repository.</param>
         /// <param name="stringLocalizer">The string localizer.</param>
-        public RestrictedListViewModel(IRepository repository, IStringLocalizer<RestrictedListViewModel> stringLocalizer)
+        public RestrictedListViewModel(Domain domain, IRepository repository, IStringLocalizer<RestrictedListViewModel> stringLocalizer)
         {
             // Initialize the object.
+            this.domain = domain;
             this.repository = repository;
             this.stringLocalizer = stringLocalizer;
 
@@ -82,12 +89,12 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             this.Items[Scenario.AddPfe].IsEnabled = false;
 
             // Add PFE to the restricted list.
-            SecurityListMapRequest securityListMapRequest = new SecurityListMapRequest
+            SecurityListMap securityListMap = new SecurityListMap
             {
-                SecurityListId = new SecurityListId { SecurityListExternalKey = new SecurityListExternalKey { Mnemonic = "TOBACCOSIN" } },
-                SecurityId = new SecurityId { SecurityFigiKey = new SecurityFigiKey { Figi = "BBG000BR2F10" } },
+                SecurityListId = this.domain.FindSecurityList("TOBACCOSIN").SecurityListId,
+                SecurityId = this.domain.FindSecurityByFigi("BBG000BR2F10").SecurityId,
             };
-            var securityListMaps = await this.repository.AddSecurityListMapsAsync(new SecurityListMapRequest[] { securityListMapRequest }).ConfigureAwait(true);
+            var securityListMaps = await this.repository.AddSecurityListMapsAsync(new SecurityListMap[] { securityListMap }).ConfigureAwait(true);
             if (securityListMaps != null)
             {
                 scenarioItemViewModel.Data = securityListMaps;

@@ -249,18 +249,6 @@
     <value>Buy AAPL</value>
     <comment>Buy AAPL</comment>
   </data>
-  <data name="DerivativeActiveLabel" xml:space="preserve">
-    <value>Clear Derivative</value>
-    <comment>Clear Derivative</comment>
-  </data>
-  <data name="DerivativeDescription" xml:space="preserve">
-    <value>Violates Asset Class Restriction</value>
-    <comment>Violates Asset Class Restriction</comment>
-  </data>
-  <data name="DerivativeInactiveLabel" xml:space="preserve">
-    <value>Buy Derivative</value>
-    <comment>Buy Derivative</comment>
-  </data>
   <data name="BasketActiveLabel" xml:space="preserve">
     <value>Clear Basket</value>
     <comment>Clear Basket</comment>

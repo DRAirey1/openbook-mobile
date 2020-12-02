@@ -34,9 +34,14 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
         private readonly Domain domain;
 
         /// <summary>
+        /// The identity of the current user.
+        /// </summary>
+        private readonly User user;
+
+        /// <summary>
         /// A pre-calculated working order.
         /// </summary>
-        private IEnumerable<WorkingOrder> workingOrders;
+        private List<SourceOrder> sourceOrders;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BulkAccountViewModel"/> class.
@@ -44,12 +49,14 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
         /// <param name="domain">Data domain for the mobile application.</param>
         /// <param name="repository">The data repository.</param>
         /// <param name="stringLocalizer">The string localizer.</param>
-        public BulkAccountViewModel(Domain domain, IRepository repository, IStringLocalizer<BulkAccountViewModel> stringLocalizer)
+        /// <param name="user">The identity of the current user.</param>
+        public BulkAccountViewModel(Domain domain, IRepository repository, IStringLocalizer<BulkAccountViewModel> stringLocalizer, User user)
         {
             // Initialize the object.
             this.domain = domain;
             this.repository = repository;
             this.stringLocalizer = stringLocalizer;
+            this.user = user;
 
             // Localize the object.
             this.Title = this.stringLocalizer["Title"];
@@ -100,11 +107,19 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             this.Items[Scenario.Reset].IsEnabled = false;
             this.Items[Scenario.ExecuteBlockOrder].IsEnabled = false;
 
-            // Create the working orders.
-            var workingOrders = await this.repository.BulkAddWorkingOrdersAsync(this.workingOrders).ConfigureAwait(true);
+            // Tag each of the orders with the current time and user.
+            foreach (SourceOrder sourceOrder in this.sourceOrders)
+            {
+                // Timestamp the source order.
+                sourceOrder.CreatedUserId = sourceOrder.ModifiedUserId = this.user.UserId;
+                sourceOrder.CreatedTime = sourceOrder.ModifiedTime = DateTime.Now;
+            }
+
+            // Post the entire batch of working orders to the repository.
+            var sourceOrders = await this.repository.AddSourceOrdersAsync(this.sourceOrders).ConfigureAwait(true);
 
             // Update the status of the view model.
-            scenarioItemViewModel.Data = workingOrders;
+            scenarioItemViewModel.Data = sourceOrders;
             scenarioItemViewModel.IsActive = true;
 
             // Re-enable once the command has finished.
@@ -123,10 +138,10 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             this.Items[Scenario.ExecuteBlockOrder].IsEnabled = false;
 
             // Extract the lists of source orders and the working order from the generic data.
-            IEnumerable<WorkingOrder> workingOrders = scenarioItemViewModel.Data as IEnumerable<WorkingOrder>;
+            IEnumerable<SourceOrder> workingOrders = scenarioItemViewModel.Data as IEnumerable<SourceOrder>;
 
             // Clear the working order.
-            if (!await this.repository.BulkDeleteWorkingOrdersAsync(workingOrders).ConfigureAwait(true))
+            if (!await this.repository.DeleteSourceOrdersAsync(workingOrders).ConfigureAwait(true))
             {
                 return;
             }
@@ -149,16 +164,8 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             Task task = Task.Run(() =>
             {
                 // Create a large block order for American Express for all accounts.
-                Security security = this.domain.FindSecurity("BBG000BCR153");
-                Blotter blotter = this.domain.FindBlotter("GLOBALBLOTTER");
-                WorkingOrder workingOrder = new WorkingOrder
-                {
-                    BlotterId = blotter.BlotterId,
-                    OrderTypeCode = OrderTypeCode.Market,
-                    SecurityId = security.SecurityId,
-                    SideCode = SideCode.Buy,
-                    TimeInForce = TimeInForceCode.Day,
-                    SourceOrders = (from a in this.domain.Accounts
+                Security security = this.domain.FindSecurityByFigi("BBG000BCR153");
+                this.sourceOrders = (from a in this.domain.Accounts
                                     join ma in this.domain.ManagedAccounts on a.AccountId equals ma.AccountId
                                     select new SourceOrder
                                     {
@@ -168,11 +175,7 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
                                         SecurityId = security.SecurityId,
                                         SideCode = SideCode.Buy,
                                         TimeInForce = TimeInForceCode.Day,
-                                    }).ToArray(),
-                };
-
-                // This is the block order for AXP across all accounts.
-                this.workingOrders = new[] { workingOrder };
+                                    }).ToList();
             });
         }
 
@@ -186,7 +189,7 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
         private decimal CalculateQuantity(Account account, Security security, double percent)
         {
             ManagedAccount managedAccount = this.domain.FindManagedAccount(account.Mnemonic);
-            Price price = this.domain.FindPrice(security.Figi);
+            Price price = this.domain.FindPriceByFigi(security.Figi);
             return Convert.ToDecimal(Math.Round(Convert.ToDouble(managedAccount.NetAssetValue) * percent / (Convert.ToDouble(price.LastPrice) * 100.0d)) * 100.0d);
         }
 
@@ -205,10 +208,10 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             if (blockOrderViewModel.IsActive)
             {
                 // Extract the lists of source orders and the working order from the generic data.
-                IEnumerable<WorkingOrder> workingOrders = blockOrderViewModel.Data as IEnumerable<WorkingOrder>;
+                IEnumerable<SourceOrder> workingOrders = blockOrderViewModel.Data as IEnumerable<SourceOrder>;
 
                 // Clear the working order.
-                if (!await this.repository.BulkDeleteWorkingOrdersAsync(workingOrders).ConfigureAwait(true))
+                if (workingOrders != null && !await this.repository.DeleteSourceOrdersAsync(workingOrders).ConfigureAwait(true))
                 {
                     return;
                 }
