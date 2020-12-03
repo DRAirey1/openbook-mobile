@@ -71,7 +71,7 @@
     <MtouchArch>ARM64</MtouchArch>
     <CodesignKey>Apple Distribution: Donald Airey (3BR32YBMJD)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignProvision>Mobile Ad Hoc</CodesignProvision>
+    <CodesignProvision>Mobile Distribution</CodesignProvision>
     <BuildIpa>true</BuildIpa>
   </PropertyGroup>
   <ItemGroup>

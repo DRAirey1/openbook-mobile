@@ -10,11 +10,6 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
     public enum Scenario
     {
         /// <summary>
-        /// Buy AAPL
-        /// </summary>
-        BuyAapl,
-
-        /// <summary>
         /// Buy BRK.A
         /// </summary>
         BuyBrkA,
@@ -28,11 +23,6 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
         /// Buy C
         /// </summary>
         BuyC,
-
-        /// <summary>
-        /// Buy deriviate
-        /// </summary>
-        BuyDerivative,
 
         /// <summary>
         /// Add Pfizer to restricted list.

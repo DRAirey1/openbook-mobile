@@ -2,9 +2,17 @@
   {
     "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
     "orderTypeCode": "Market",
-    "quantity": 3,
+    "quantity": 1,
     "securityId": { "securityFigiKey": { "figi": "BBG000DWCHZ5" } },
     "sideCode": "Buy",
+    "timeInForceCode": "Day"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "orderTypeCode": "Market",
+    "quantity": 292130,
+    "securityId": { "securityExternalKey": { "externalId": "USD" } },
+    "sideCode": "Sell",
     "timeInForceCode": "Day"
   }
 ]

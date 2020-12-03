@@ -24,7 +24,6 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
         /// </summary>
         private static readonly Dictionary<Scenario, string> ProposedOrderDictionary = new Dictionary<Scenario, string>()
         {
-            { Scenario.BuyAapl, "ThetaRex.OpenBook.Mobile.Common.Data.Buy AAPL.json" },
             { Scenario.BuyBrkA, "ThetaRex.OpenBook.Mobile.Common.Data.Buy BRK.A.json" },
             { Scenario.BuyBrkB, "ThetaRex.OpenBook.Mobile.Common.Data.Buy BRK.B.json" },
             { Scenario.BuyC, "ThetaRex.OpenBook.Mobile.Common.Data.Buy C.json" },
@@ -216,20 +215,6 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
                     InactiveHandler = this.BuyProposedOrdersAsync,
                     InactiveLabel = this.stringLocalizer["QqqInactiveLabel"],
                     Scenario = Scenario.BuyQqq,
-                });
-
-            // AAPL - Average Daily Volume Violation.
-            this.Items.Add(
-                new ScenarioItemViewModel
-                {
-                    ActiveHandler = this.DeleteProposedOrderAsync,
-                    ActiveLabel = this.stringLocalizer["AaplActiveLabel"],
-                    Command = new Command<Scenario>((s) => this.RouteCommand(s)),
-                    CommandParameter = Scenario.BuyAapl,
-                    Description = this.stringLocalizer["AaplDescription"],
-                    InactiveHandler = this.BuyProposedOrdersAsync,
-                    InactiveLabel = this.stringLocalizer["AaplInactiveLabel"],
-                    Scenario = Scenario.BuyAapl,
                 });
 
             // Buy a basket.

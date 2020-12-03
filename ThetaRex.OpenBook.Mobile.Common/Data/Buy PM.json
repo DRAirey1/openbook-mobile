@@ -6,5 +6,13 @@
     "securityId": { "securityFigiKey": { "figi": "BBG000J2XPB0" } },
     "sideCode": "Buy",
     "timeInForceCode": "Day"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "orderTypeCode": "Market",
+    "quantity": 7984,
+    "securityId": { "securityExternalKey": { "externalId": "USD" } },
+    "sideCode": "Sell",
+    "timeInForceCode": "Day"
   }
 ]

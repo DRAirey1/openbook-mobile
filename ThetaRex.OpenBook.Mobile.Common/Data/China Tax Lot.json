@@ -4,7 +4,7 @@
     "cost": 0.0,
     "localCost": 0.0,
     "securityId": { "securityFigiKey": { "figi": "BBG000BCR153" } },
-    "quantity": 8900,
+    "quantity": 900,
     "positionTypeCode": "Owned",
     "tradeDate": "4/8/19",
     "settlementDate": "4/11/19"
@@ -34,7 +34,27 @@
     "cost": 0.0,
     "localCost": 0.0,
     "securityId": { "securityFigiKey": { "figi": "BBG000CH53T5" } },
-    "quantity": 3700,
+    "quantity": 600,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000DWCHZ5" } },
+    "quantity": 2,
+    "positionTypeCode": "Owned",
+    "tradeDate": "4/8/19",
+    "settlementDate": "4/11/19"
+  },
+  {
+    "accountId": { "accountExternalKey": { "mnemonic": "CHINA" } },
+    "cost": 0.0,
+    "localCost": 0.0,
+    "securityId": { "securityFigiKey": { "figi": "BBG000DWH8Q0" } },
+    "quantity": 2200,
     "positionTypeCode": "Owned",
     "tradeDate": "4/8/19",
     "settlementDate": "4/11/19"

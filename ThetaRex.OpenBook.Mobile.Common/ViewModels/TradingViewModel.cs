@@ -50,6 +50,11 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
         private readonly Domain domain;
 
         /// <summary>
+        /// A random number generator.
+        /// </summary>
+        private readonly Random random = new Random();
+
+        /// <summary>
         /// Repository of data.
         /// </summary>
         private readonly IRepository repository;
@@ -314,21 +319,27 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
                 // For the bulk account scenario, create a basket of the top 100 stocks by market value for the first 30 accounts.
                 var accounts = (from a in this.domain.Accounts
                                 where a.AccountTypeCode == AccountTypeCode.ManagedAccount && !TradingViewModel.RestrictedAccounts.Contains(a.Mnemonic)
-                                select a).Take(30);
+                                select a).Take(100);
                 foreach (Account account in accounts)
                 {
-                    managedAccount = this.domain.ManagedAccounts.Where(ma => ma.AccountId == account.AccountId).First();
-                    foreach (string figi in TradingViewModel.BulkAccount)
+                    // Create a random basket of 50 securities that represent a optimization reblancing.
+                    List<Security> basket = new List<Security>();
+                    for (int counter = 0; counter < 50; counter++)
                     {
-                        // Each order will be for 0.1% of the basket NAV.
-                        Security security = this.domain.FindSecurityByFigi(figi);
-                        Price price = this.domain.FindPriceByFigi(figi);
+                        int index = this.random.Next(0, TradingViewModel.BulkAccount.Count);
+                        basket.Add(this.domain.FindSecurityByFigi(TradingViewModel.BulkAccount[index]));
+                    }
+
+                    // Create a source order for every issue in the basket.
+                    foreach (Security security in basket)
+                    {
+                        Price price = this.domain.FindPriceByFigi(security.Figi);
                         this.bulkAccountBasket.Add(
                             new SourceOrder
                             {
                                 AccountId = account.AccountId,
                                 OrderTypeCode = OrderTypeCode.Market,
-                                Quantity = Convert.ToDecimal(Math.Floor(Convert.ToDouble(managedAccount.NetAssetValue) * 0.001d / (100.0d * Convert.ToDouble(price.ClosePrice))) * 100.0d),
+                                Quantity = this.random.Next(100, 1000),
                                 SecurityId = security.SecurityId,
                                 SideCode = SideCode.Buy,
                                 TimeInForce = TimeInForceCode.Day,
