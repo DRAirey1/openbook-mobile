@@ -35,6 +35,13 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             "ThetaRex.OpenBook.Mobile.Common.Data.Single Account.json");
 
         /// <summary>
+        /// The FIGIs for the stocks in the restricted list for tabbacco.
+        /// </summary>
+        private static readonly List<string> SinStocks = ResourceHelper.ReadEmbeddedFile<List<string>>(
+            Assembly.GetExecutingAssembly(),
+            "ThetaRex.OpenBook.Mobile.Common.Data.Sin Stocks.json");
+
+        /// <summary>
         /// The restricted accounts used for most of the scenarios.
         /// </summary>
         private static readonly string[] RestrictedAccounts = new string[] { "REDSTONE", "PARKPLACE", "CHINA", "PIONEER", "HILLCREST" };
@@ -108,8 +115,8 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
                     Command = new Command<Scenario>((s) => this.RouteCommand(s)),
                     CommandParameter = Scenario.Reset,
                     Description = this.stringLocalizer["ResetScenariosDescription"],
-                    InactiveLabel = this.stringLocalizer["ResetScenariosInactiveLabel"],
                     InactiveHandler = this.ResetScenariosAsync,
+                    InactiveLabel = this.stringLocalizer["ResetScenariosInactiveLabel"],
                     Scenario = Scenario.Reset,
                 });
 
@@ -117,8 +124,6 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             this.Items.Add(
                 new ScenarioItemViewModel
                 {
-                    ActiveHandler = this.ClearDowOrdersAsync,
-                    ActiveLabel = this.stringLocalizer["ImportSingleActiveLabel"],
                     Command = new Command<Scenario>((s) => this.RouteCommand(s)),
                     CommandParameter = Scenario.ImportSingleAccount,
                     Description = this.stringLocalizer["ImportSingleDescription"],
@@ -131,13 +136,11 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             this.Items.Add(
                 new ScenarioItemViewModel
                 {
-                    ActiveLabel = this.stringLocalizer["ImportBulkActiveLabel"],
                     Command = new Command<Scenario>((s) => this.RouteCommand(s)),
                     CommandParameter = Scenario.ImportBulkAccount,
                     Description = this.stringLocalizer["ImportBulkDescription"],
-                    InactiveLabel = this.stringLocalizer["ImportBulkInactiveLabel"],
-                    ActiveHandler = this.ClearSpxOrdersAsync,
                     InactiveHandler = this.ImportBulkAccountAsync,
+                    InactiveLabel = this.stringLocalizer["ImportBulkInactiveLabel"],
                     Scenario = Scenario.ImportBulkAccount,
                 });
 
@@ -153,62 +156,6 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
                     InactiveLabel = this.stringLocalizer["SendOrdersInactiveLabel"],
                     Scenario = Scenario.SendOrders,
                 });
-        }
-
-        /// <summary>
-        /// Clear the optimizer orders.
-        /// </summary>
-        /// <param name="scenarioItemViewModel">The view model of the selected scenario.</param>
-        private async Task ClearDowOrdersAsync(ScenarioItemViewModel scenarioItemViewModel)
-        {
-            // Disable while the command is executed on the server.  Note that the allocations must be disabled immediately otherwise we leave open
-            // the possibility of deleting the source orders while allowing for the import orders to be imported.
-            this.Items[Scenario.Reset].IsEnabled = false;
-            this.Items[Scenario.ImportSingleAccount].IsEnabled = false;
-            this.Items[Scenario.ImportBulkAccount].IsEnabled = false;
-            this.Items[Scenario.SendOrders].IsEnabled = false;
-
-            // Tell the service to delete the source orders (must be done first) and the working orders.
-            var sourceOrders = (IEnumerable<SourceOrder>)scenarioItemViewModel.Data;
-            if (await this.repository.DeleteSourceOrdersAsync(sourceOrders).ConfigureAwait(true))
-            {
-                scenarioItemViewModel.Data = null;
-                scenarioItemViewModel.IsActive = false;
-            }
-
-            // Re-enable the scenario when the server is done.
-            this.Items[Scenario.Reset].IsEnabled = true;
-            this.Items[Scenario.ImportSingleAccount].IsEnabled = true;
-            this.Items[Scenario.ImportBulkAccount].IsEnabled = true;
-            this.Items[Scenario.SendOrders].IsEnabled = false;
-        }
-
-        /// <summary>
-        /// Clear the imported orders.
-        /// </summary>
-        /// <param name="scenarioItemViewModel">The view model of the selected scenario.</param>
-        private async Task ClearSpxOrdersAsync(ScenarioItemViewModel scenarioItemViewModel)
-        {
-            // Disable while the command is executed on the server.  Note that the allocations must be disabled immediately otherwise we leave open
-            // the possibility of deleting the source orders while allowing for the import orders to be imported.
-            this.Items[Scenario.Reset].IsEnabled = false;
-            this.Items[Scenario.ImportSingleAccount].IsEnabled = false;
-            this.Items[Scenario.ImportBulkAccount].IsEnabled = false;
-            this.Items[Scenario.SendOrders].IsEnabled = false;
-
-            // Tell the service to delete the working orders.
-            var sourceOrders = (IEnumerable<SourceOrder>)scenarioItemViewModel.Data;
-            if (await this.repository.DeleteSourceOrdersAsync(sourceOrders).ConfigureAwait(true))
-            {
-                scenarioItemViewModel.Data = null;
-                scenarioItemViewModel.IsActive = false;
-            }
-
-            // Re-enable the scenario when the server is done.
-            this.Items[Scenario.Reset].IsEnabled = true;
-            this.Items[Scenario.ImportSingleAccount].IsEnabled = true;
-            this.Items[Scenario.ImportBulkAccount].IsEnabled = true;
-            this.Items[Scenario.SendOrders].IsEnabled = false;
         }
 
         /// <summary>
@@ -231,18 +178,12 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
                 sourceOrder.CreatedTime = sourceOrder.ModifiedTime = DateTime.Now;
             }
 
-            // The embedded file contains the working orders for this scenario.
-            var sourceOrders = await this.repository.AddSourceOrdersAsync(this.singleAccountBasket).ConfigureAwait(true);
-            if (sourceOrders != null)
-            {
-                // Indicate that we've successfully swiched states.
-                scenarioItemViewModel.Data = sourceOrders;
-                scenarioItemViewModel.IsActive = true;
-            }
+            // The embedded file contains the source orders for this scenario.
+            await this.repository.AddSourceOrdersAsync(this.singleAccountBasket).ConfigureAwait(true);
 
             // Re-enable once the command has finished.
             this.Items[Scenario.Reset].IsEnabled = true;
-            this.Items[Scenario.ImportSingleAccount].IsEnabled = true;
+            this.Items[Scenario.ImportSingleAccount].IsEnabled = false;
             this.Items[Scenario.ImportBulkAccount].IsEnabled = false;
             this.Items[Scenario.SendOrders].IsEnabled = true;
         }
@@ -267,19 +208,13 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
                 sourceOrder.CreatedTime = sourceOrder.ModifiedTime = DateTime.Now;
             }
 
-            // If we successfully created the working and their source orders, then change the state of the view model.
-            var sourceOrders = await this.repository.AddSourceOrdersAsync(this.bulkAccountBasket).ConfigureAwait(true);
-            if (sourceOrders != null)
-            {
-                // Indicate that we've successfully swiched states.
-                scenarioItemViewModel.Data = sourceOrders;
-                scenarioItemViewModel.IsActive = true;
-            }
+            // Create the source orders for the bulk account scenario.
+            await this.repository.AddSourceOrdersAsync(this.bulkAccountBasket).ConfigureAwait(true);
 
             // Re-enable once the command has finished.
             this.Items[Scenario.Reset].IsEnabled = true;
             this.Items[Scenario.ImportSingleAccount].IsEnabled = false;
-            this.Items[Scenario.ImportBulkAccount].IsEnabled = true;
+            this.Items[Scenario.ImportBulkAccount].IsEnabled = false;
             this.Items[Scenario.SendOrders].IsEnabled = true;
         }
 
@@ -311,23 +246,47 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
                             OrderTypeCode = OrderTypeCode.Market,
                             Quantity = Convert.ToDecimal(Math.Floor(Convert.ToDouble(managedAccount.NetAssetValue) * 0.01d / (100.0d * Convert.ToDouble(price.ClosePrice))) * 100.0d),
                             SecurityId = security.SecurityId,
-                            SideCode = SideCode.Buy,
+                            SideCode = this.random.Next(0, 2) == 0 ? SideCode.Sell : SideCode.Buy,
                             TimeInForce = TimeInForceCode.Day,
                         });
                 }
 
+                // We don't want to clutter the blotter with a bunch of orders that look like they can be crossed.  So when we create a random order
+                // for a security, all the other random orders for that security will have the same side.  This dictionary insures that each order
+                // for a name has the same side as every other order for that name.
+                Dictionary<string, SideCode> sideDictionary = new Dictionary<string, SideCode>();
+                TradingViewModel.BulkAccount.ForEach(f => sideDictionary.Add(f, this.random.Next(0, 2) == 0 ? SideCode.Buy : SideCode.Sell));
+                TradingViewModel.SinStocks.ForEach(f => sideDictionary.Add(f, this.random.Next(0, 2) == 0 ? SideCode.Buy : SideCode.Sell));
+
                 // For the bulk account scenario, create a basket of the top 100 stocks by market value for the first 30 accounts.
                 var accounts = (from a in this.domain.Accounts
                                 where a.AccountTypeCode == AccountTypeCode.ManagedAccount && !TradingViewModel.RestrictedAccounts.Contains(a.Mnemonic)
-                                select a).Take(100);
-                foreach (Account account in accounts)
+                                select a)
+                                .Take(100)
+                                .ToList();
+                for (int accountCounter = 0; accountCounter < accounts.Count; accountCounter++)
                 {
+                    // Create a basket of optimized orders for the next account.
+                    Account account = accounts[accountCounter];
+
                     // Create a random basket of 50 securities that represent a optimization reblancing.
-                    List<Security> basket = new List<Security>();
-                    for (int counter = 0; counter < 50; counter++)
+                    HashSet<Security> basket = new HashSet<Security>();
+                    int basketSize = this.random.Next(20, 30);
+                    while (basket.Count < basketSize)
                     {
                         int index = this.random.Next(0, TradingViewModel.BulkAccount.Count);
-                        basket.Add(this.domain.FindSecurityByFigi(TradingViewModel.BulkAccount[index]));
+                        string figi = TradingViewModel.BulkAccount[index];
+
+                        // This security is now part of the randomly constructed basket.
+                        basket.Add(this.domain.FindSecurityByFigi(figi));
+                    }
+
+                    // In order to show that these baskets are going through compliance, we're going to add a stock that violates the tabacco list
+                    // restriction at predictable intervals.  This should give us 1 violation for every 10 accounts.
+                    if (accountCounter % 10 == 0)
+                    {
+                        int index = this.random.Next(0, TradingViewModel.SinStocks.Count);
+                        basket.Add(this.domain.FindSecurityByFigi(TradingViewModel.SinStocks[index]));
                     }
 
                     // Create a source order for every issue in the basket.
@@ -341,7 +300,7 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
                                 OrderTypeCode = OrderTypeCode.Market,
                                 Quantity = this.random.Next(100, 1000),
                                 SecurityId = security.SecurityId,
-                                SideCode = SideCode.Buy,
+                                SideCode = sideDictionary[security.Figi],
                                 TimeInForce = TimeInForceCode.Day,
                             });
                     }
@@ -361,7 +320,7 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             this.Items[Scenario.ImportBulkAccount].IsEnabled = false;
             this.Items[Scenario.SendOrders].IsEnabled = false;
 
-            // Get a fresh copy of all the trades on the desk.
+            // Get a fresh copy of all the source orders, destination orders and executions on the desk.
             Task<IEnumerable<Execution>> executionsTask = this.repository.GetExecutionsAsync();
             Task<IEnumerable<DestinationOrder>> destinationOrdersTask = this.repository.GetDestinationOrdersAsync();
             Task<IEnumerable<SourceOrder>> sourceOrdersTask = this.repository.GetSourceOrdersAsync();
@@ -378,35 +337,14 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             Task<bool> task2 = this.repository.DeleteSourceOrdersAsync(await sourceOrdersTask.ConfigureAwait(true));
 
             // Wait for all the source orders, destination orders and executions to be deleted.
-            bool isExecutionDestinationOrderDeleted = await task1.ConfigureAwait(false);
-            bool isSourceOrderDeleted = await task2.ConfigureAwait(false);
-
-            // Reset the state of the Optimized Order scenario.
-            ScenarioItemViewModel dowOrderViewModel = this.Items[Scenario.ImportSingleAccount];
-            if (dowOrderViewModel.IsActive)
-            {
-                dowOrderViewModel.Data = null;
-                dowOrderViewModel.IsActive = false;
-            }
-
-            // Reset the state of the S&P Index scenario.
-            ScenarioItemViewModel spxOrderViewModel = this.Items[Scenario.ImportBulkAccount];
-            if (spxOrderViewModel.IsActive)
-            {
-                spxOrderViewModel.Data = null;
-                spxOrderViewModel.IsActive = false;
-            }
-
-            // If everything was deleted properly, then reset the status of the buttons.
-            if (isExecutionDestinationOrderDeleted && isSourceOrderDeleted)
-            {
-                this.Items[Scenario.ImportSingleAccount].IsEnabled = true;
-                this.Items[Scenario.ImportBulkAccount].IsEnabled = true;
-                this.Items[Scenario.SendOrders].IsEnabled = false;
-            }
+            await task1.ConfigureAwait(false);
+            await task2.ConfigureAwait(false);
 
             // re-enable the commands after the reset.
             this.Items[Scenario.Reset].IsEnabled = true;
+            this.Items[Scenario.ImportSingleAccount].IsEnabled = true;
+            this.Items[Scenario.ImportBulkAccount].IsEnabled = true;
+            this.Items[Scenario.SendOrders].IsEnabled = false;
         }
 
         /// <summary>
@@ -426,6 +364,9 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
 
             // Re-enable once the command has finished.
             this.Items[Scenario.Reset].IsEnabled = true;
+            this.Items[Scenario.ImportSingleAccount].IsEnabled = false;
+            this.Items[Scenario.ImportBulkAccount].IsEnabled = false;
+            this.Items[Scenario.SendOrders].IsEnabled = false;
         }
     }
 }

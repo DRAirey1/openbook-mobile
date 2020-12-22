@@ -420,6 +420,8 @@ namespace ThetaRex.OpenBook.Mobile.Common
         /// </summary>
         private async void InitializeData()
         {
+            // Keep trying until we have a complete data domain.  If the server is slow to start, we may take several time-out errors before we get a
+            // complete set.
             while (true)
             {
                 // Get the data for this domain from the repository.
@@ -432,30 +434,31 @@ namespace ThetaRex.OpenBook.Mobile.Common
                 var securityLists = this.repository.GetSecurityListAsync();
                 await Task.WhenAll(accounts, blotters, brokers, managedAccounts, prices, securities, securityLists).ConfigureAwait(false);
 
-                // If any of the result sets had an error, then give it a polite pause and continue looping until we get all the data we need to initialize.
-                if (accounts.Result == null || blotters.Result == null || managedAccounts.Result == null || prices.Result == null || securities.Result == null)
+                // The domain is only initialized when all of the queries have returned results.
+                if (accounts.Result != null && blotters.Result != null && managedAccounts.Result != null && prices.Result != null && securities.Result != null)
                 {
-                    await Task.Delay(Domain.RetryTime).ConfigureAwait(false);
+                    // Take the results and place them in dictionaries.  The general idea is to take the external identifiers found in the scripted data
+                    // and turn them into actual internal identifiers so that when we call the API to create the orders, we don't waste the server's time
+                    // doing the translation.
+                    accounts.Result.ToList().ForEach(a => this.accountDictionary.Add(a.Mnemonic, a));
+                    blotters.Result.ToList().ForEach(b => this.blotterDictionary.Add(b.Mnemonic, b));
+                    brokers.Result.ToList().ForEach(b => this.brokerDictionary.Add(b.Symbol, b));
+                    managedAccounts.Result.ToList().ForEach(ma => this.managedAccountDictionary.Add(ma.Mnemonic, ma));
+                    prices.Result.Where(p => p.ExternalId != null).ToList().ForEach(p => this.priceExternalIdDictionary.Add(p.ExternalId, p));
+                    prices.Result.Where(p => p.Figi != null).ToList().ForEach(p => this.priceFigiDictionary.Add(p.Figi, p));
+                    securities.Result.Where(s => s.ExternalId != null).ToList().ForEach(s => this.securityExternalIdDictionary.Add(s.ExternalId, s));
+                    securities.Result.Where(s => s.Figi != null).ToList().ForEach(s => this.securityFigiDictionary.Add(s.Figi, s));
+                    securityLists.Result.ToList().ForEach(sl => this.securityListDictionary.Add(sl.Mnemonic, sl));
+
+                    // This signals that the data domain is initialized.
+                    this.Initialized.Set();
+
+                    // No need to loop anymore.
+                    break;
                 }
 
-                // Take the results and place them in dictionaries.  The general idea is to take the external identifiers found in the scripted data
-                // and turn them into actual internal identifiers so that when we call the API to create the orders, we don't waste the server's time
-                // doing the translation.
-                accounts.Result.ToList().ForEach(a => this.accountDictionary.Add(a.Mnemonic, a));
-                blotters.Result.ToList().ForEach(b => this.blotterDictionary.Add(b.Mnemonic, b));
-                brokers.Result.ToList().ForEach(b => this.brokerDictionary.Add(b.Symbol, b));
-                managedAccounts.Result.ToList().ForEach(ma => this.managedAccountDictionary.Add(ma.Mnemonic, ma));
-                prices.Result.Where(p => p.ExternalId != null).ToList().ForEach(p => this.priceExternalIdDictionary.Add(p.ExternalId, p));
-                prices.Result.Where(p => p.Figi != null).ToList().ForEach(p => this.priceFigiDictionary.Add(p.Figi, p));
-                securities.Result.Where(s => s.ExternalId != null).ToList().ForEach(s => this.securityExternalIdDictionary.Add(s.ExternalId, s));
-                securities.Result.Where(s => s.Figi != null).ToList().ForEach(s => this.securityFigiDictionary.Add(s.Figi, s));
-                securityLists.Result.ToList().ForEach(sl => this.securityListDictionary.Add(sl.Mnemonic, sl));
-
-                // This signals that the data domain is initialized.
-                this.Initialized.Set();
-
                 // Exit the loop.
-                break;
+                await Task.Delay(Domain.RetryTime).ConfigureAwait(false);
             }
         }
 

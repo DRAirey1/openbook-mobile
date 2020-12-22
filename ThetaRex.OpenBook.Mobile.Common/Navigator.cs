@@ -1,4 +1,4 @@
-﻿// <copyright file="PageNavigation.cs" company="Theta Rex, Inc.">
+﻿// <copyright file="Navigator.cs" company="Theta Rex, Inc.">
 //    Copyright © 2020 - Theta Rex, Inc.  All Rights Reserved.
 // </copyright>
 // <author>Donald Roy Airey</author>
@@ -17,7 +17,7 @@ namespace ThetaRex.OpenBook.Mobile.Common
     /// for a view model to handle a command like 'Navigate to a scenario'.  To accomplish this, we map the view model type to the requested page
     /// type.
     /// </remarks>
-    public class PageNavigation
+    public class Navigator
     {
         /// <summary>
         /// Gets or sets the <see cref="INavigation"/> interface.

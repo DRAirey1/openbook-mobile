@@ -24,7 +24,7 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
         /// <summary>
         /// The navigation interface for selecting scenarios.
         /// </summary>
-        private readonly PageNavigation pageNavigation;
+        private readonly Navigator navigator;
 
         /// <summary>
         /// The data repository.
@@ -40,14 +40,14 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
         /// Initializes a new instance of the <see cref="RootViewModel"/> class.
         /// </summary>
         /// <param name="domain">The shared data domain.</param>
-        /// <param name="pageNavigation">The view model based navigation.</param>
+        /// <param name="navigator">The view model based navigation.</param>
         /// <param name="repository">The data repository.</param>
         /// <param name="stringLocalizer">The string localizer.</param>
-        public RootViewModel(Domain domain, PageNavigation pageNavigation, IRepository repository, IStringLocalizer<RootViewModel> stringLocalizer)
+        public RootViewModel(Domain domain, Navigator navigator, IRepository repository, IStringLocalizer<RootViewModel> stringLocalizer)
         {
             // Initialize the object.
             this.domain = domain;
-            this.pageNavigation = pageNavigation;
+            this.navigator = navigator;
             this.repository = repository;
             this.stringLocalizer = stringLocalizer;
 
@@ -69,7 +69,7 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             this.Items.Add(
                 new ScenarioItemViewModel
                 {
-                    Command = new Command(async () => await this.pageNavigation.PushAsync(typeof(IborViewModel)).ConfigureAwait(true)),
+                    Command = new Command(async () => await this.navigator.PushAsync(typeof(IborViewModel)).ConfigureAwait(true)),
                     Description = this.stringLocalizer["IborScenarioDescription"],
                     InactiveLabel = this.stringLocalizer["IborScenarioInactiveLabel"],
                     IsEnabled = false,
@@ -80,7 +80,7 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             this.Items.Add(
                 new ScenarioItemViewModel
                 {
-                    Command = new Command(async () => await this.pageNavigation.PushAsync(typeof(SingleAccountViewModel)).ConfigureAwait(true)),
+                    Command = new Command(async () => await this.navigator.PushAsync(typeof(SingleAccountViewModel)).ConfigureAwait(true)),
                     Description = this.stringLocalizer["SingleAccountOperationsDescription"],
                     InactiveLabel = this.stringLocalizer["SingleAccountOperationsInactiveLabel"],
                     IsEnabled = false,
@@ -91,7 +91,7 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             this.Items.Add(
                 new ScenarioItemViewModel
                 {
-                    Command = new Command(async () => await this.pageNavigation.PushAsync(typeof(BulkAccountViewModel)).ConfigureAwait(true)),
+                    Command = new Command(async () => await this.navigator.PushAsync(typeof(BulkAccountViewModel)).ConfigureAwait(true)),
                     Description = this.stringLocalizer["BulkAccountDescription"],
                     InactiveLabel = this.stringLocalizer["BulkAccountInactiveLabel"],
                     IsEnabled = false,
@@ -102,7 +102,7 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             this.Items.Add(
                 new ScenarioItemViewModel
                 {
-                    Command = new Command(async () => await this.pageNavigation.PushAsync(typeof(RuleParameterViewModel)).ConfigureAwait(true)),
+                    Command = new Command(async () => await this.navigator.PushAsync(typeof(RuleParameterViewModel)).ConfigureAwait(true)),
                     Description = this.stringLocalizer["RuleParametersDescription"],
                     InactiveLabel = this.stringLocalizer["RuleParametersInactiveLabel"],
                     IsEnabled = false,
@@ -113,7 +113,7 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             this.Items.Add(
                 new ScenarioItemViewModel
                 {
-                    Command = new Command(async () => await this.pageNavigation.PushAsync(typeof(TradingViewModel)).ConfigureAwait(true)),
+                    Command = new Command(async () => await this.navigator.PushAsync(typeof(TradingViewModel)).ConfigureAwait(true)),
                     Description = this.stringLocalizer["TradingDescription"],
                     InactiveLabel = this.stringLocalizer["TradingInactiveLabel"],
                     IsEnabled = false,

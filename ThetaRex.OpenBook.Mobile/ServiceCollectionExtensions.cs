@@ -28,13 +28,12 @@ namespace ThetaRex.OpenBook.Mobile
                 .AddSingleton<IndustryConcentrationPage>()
                 .AddSingleton<MainPage>()
                 .AddSingleton<MasterPage>()
-                .AddSingleton<PageNavigation>()
+                .AddSingleton<Navigator>()
                 .AddSingleton<RestrictedListPage>()
                 .AddSingleton<RuleParameterPage>()
                 .AddSingleton<ScenarioPage>()
                 .AddSingleton<SingleAccountPage>()
-                .AddSingleton<TradingPage>()
-                .AddSingleton<PageNavigation>();
+                .AddSingleton<TradingPage>();
         }
     }
 }

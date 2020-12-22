@@ -16,7 +16,7 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
         /// <summary>
         /// The navigation interface for selecting scenarios.
         /// </summary>
-        private readonly PageNavigation pageNavigation;
+        private readonly Navigator navigator;
 
         /// <summary>
         /// The string localizer.
@@ -26,12 +26,12 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="RuleParameterViewModel"/> class.
         /// </summary>
-        /// <param name="pageNavigation">The view model based navigation.</param>
+        /// <param name="navigator">The view model based navigation.</param>
         /// <param name="stringLocalizer">The string localizer.</param>
-        public RuleParameterViewModel(PageNavigation pageNavigation, IStringLocalizer<RuleParameterViewModel> stringLocalizer)
+        public RuleParameterViewModel(Navigator navigator, IStringLocalizer<RuleParameterViewModel> stringLocalizer)
         {
             // Initialize the object.
-            this.pageNavigation = pageNavigation;
+            this.navigator = navigator;
             this.stringLocalizer = stringLocalizer;
 
             // Localize the object.
@@ -41,14 +41,14 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             this.Items.Add(
                 new ScenarioItemViewModel
                 {
-                    Command = new Command(async () => await this.pageNavigation.PushAsync(typeof(IndustryConcentrationViewModel)).ConfigureAwait(true)),
+                    Command = new Command(async () => await this.navigator.PushAsync(typeof(IndustryConcentrationViewModel)).ConfigureAwait(true)),
                     Description = this.stringLocalizer["IndustryConcentrationDescription"],
                     InactiveLabel = this.stringLocalizer["IndustryConcentrationInactiveLabel"],
                 });
             this.Items.Add(
                 new ScenarioItemViewModel
                 {
-                    Command = new Command(async () => await this.pageNavigation.PushAsync(typeof(RestrictedListViewModel)).ConfigureAwait(true)),
+                    Command = new Command(async () => await this.navigator.PushAsync(typeof(RestrictedListViewModel)).ConfigureAwait(true)),
                     Description = this.stringLocalizer["RestrictedListDescription"],
                     InactiveLabel = this.stringLocalizer["RestrictedListInactiveLabel"],
                 });

@@ -25,7 +25,7 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
         /// <summary>
         /// Provides navigation for the view model.
         /// </summary>
-        private readonly PageNavigation pageNavigation;
+        private readonly Navigator navigator;
 
         /// <summary>
         /// The string localizer.
@@ -41,13 +41,13 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
         /// Initializes a new instance of the <see cref="MainViewModel"/> class.
         /// </summary>
         /// <param name="httpClient">The HTTP client used to communicate with the service.</param>
-        /// <param name="pageNavigation">Provides navigation for the view model.</param>
+        /// <param name="navigator">Provides navigation for the view model.</param>
         /// <param name="stringLocalizer">The string localizer.</param>
-        public MainViewModel(HttpClient<OpenBookHost> httpClient, PageNavigation pageNavigation, IStringLocalizer<MainViewModel> stringLocalizer)
+        public MainViewModel(HttpClient<OpenBookHost> httpClient, Navigator navigator, IStringLocalizer<MainViewModel> stringLocalizer)
         {
             // Initialize the object.
             this.httpClient = httpClient;
-            this.pageNavigation = pageNavigation;
+            this.navigator = navigator;
             this.stringLocalizer = stringLocalizer;
 
             // Localize the object.
@@ -145,7 +145,7 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
         private async void SetRoot(Type type)
         {
             // Set the new root for the application.
-            await this.pageNavigation.SetRootAsync(type).ConfigureAwait(true);
+            await this.navigator.SetRootAsync(type).ConfigureAwait(true);
 
             // Close the master page.
             this.IsPresented = false;
@@ -157,10 +157,10 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
         private async void SignOut()
         {
             // This will clear the credentials and prompt a login.
-            await this.httpClient.ForceLoginAsync().ConfigureAwait(true);
+            await this.httpClient.SignInAsync().ConfigureAwait(true);
 
             // Return to the main scenario page after signing out.
-            await this.pageNavigation.SetRootAsync(typeof(RootViewModel)).ConfigureAwait(true);
+            await this.navigator.SetRootAsync(typeof(RootViewModel)).ConfigureAwait(true);
 
             // Close the master page.
             this.IsPresented = false;

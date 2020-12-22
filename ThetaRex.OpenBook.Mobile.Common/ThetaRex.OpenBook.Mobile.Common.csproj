@@ -33,6 +33,7 @@
     <None Remove="Data\China Tax Lot.json" />
     <None Remove="Data\Currency Universe.json" />
     <None Remove="Data\Equity Universe.json" />
+    <None Remove="Data\Sin Stocks.json" />
     <None Remove="Data\Single Account.json" />
     <None Remove="stylecop.json" />
   </ItemGroup>
@@ -44,6 +45,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Data\Block Order.json" />
     <EmbeddedResource Include="Data\Currency Universe.json" />
+    <EmbeddedResource Include="Data\Sin Stocks.json" />
     <EmbeddedResource Include="Data\Equity Universe.json" />
     <EmbeddedResource Include="Data\Buy Basket.json" />
     <EmbeddedResource Include="Data\Buy BRK.A.json" />
@@ -63,19 +65,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.1">
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Localization" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="5.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="ThetaRex.Common" Version="1.0.26" />
+    <PackageReference Include="ThetaRex.Common" Version="1.0.32" />
     <PackageReference Include="ThetaRex.OpenBook.Common" Version="1.0.7" />
-    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1687" />
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1821" />
   </ItemGroup>
 
 </Project>

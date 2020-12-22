@@ -19,6 +19,16 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
     public class BulkAccountViewModel : ScenarioViewModel
     {
         /// <summary>
+        /// The restricted accounts used for most of the scenarios.
+        /// </summary>
+        private static readonly string[] RestrictedAccounts = new string[] { "REDSTONE", "PARKPLACE", "CHINA", "PIONEER", "HILLCREST" };
+
+        /// <summary>
+        /// Translates external symbols into internal primary key values.
+        /// </summary>
+        private readonly Domain domain;
+
+        /// <summary>
         /// Repository of data.
         /// </summary>
         private readonly IRepository repository;
@@ -27,11 +37,6 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
         /// The string localizer.
         /// </summary>
         private readonly IStringLocalizer stringLocalizer;
-
-        /// <summary>
-        /// Translates external symbols into internal primary key values.
-        /// </summary>
-        private readonly Domain domain;
 
         /// <summary>
         /// The identity of the current user.
@@ -166,16 +171,17 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
                 // Create a large block order for American Express for all accounts.
                 Security security = this.domain.FindSecurityByFigi("BBG000BCR153");
                 this.sourceOrders = (from a in this.domain.Accounts
-                                    join ma in this.domain.ManagedAccounts on a.AccountId equals ma.AccountId
-                                    select new SourceOrder
-                                    {
-                                        AccountId = a.AccountId,
-                                        OrderTypeCode = OrderTypeCode.Market,
-                                        Quantity = this.CalculateQuantity(a, security, 0.048),
-                                        SecurityId = security.SecurityId,
-                                        SideCode = SideCode.Buy,
-                                        TimeInForce = TimeInForceCode.Day,
-                                    }).ToList();
+                                     join ma in this.domain.ManagedAccounts on a.AccountId equals ma.AccountId
+                                     where !BulkAccountViewModel.RestrictedAccounts.Contains(a.Mnemonic)
+                                     select new SourceOrder
+                                     {
+                                         AccountId = a.AccountId,
+                                         OrderTypeCode = OrderTypeCode.Market,
+                                         Quantity = this.CalculateQuantity(a, security, 0.048),
+                                         SecurityId = security.SecurityId,
+                                         SideCode = SideCode.Buy,
+                                         TimeInForce = TimeInForceCode.Day,
+                                     }).ToList();
             });
         }
 

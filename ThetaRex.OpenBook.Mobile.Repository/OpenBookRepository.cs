@@ -52,11 +52,8 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                 throw new ArgumentNullException(nameof(allocations));
             }
 
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // We're going to use add a mass of allocations in parallel using the REST API.
-            var requestUri = $"rest/allocations";
+            var requestUri = "rest/allocations";
             try
             {
                 // The semaphore allows multiple parallel tasks to update the list containing the results.
@@ -78,12 +75,12 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                                 async () =>
                                 {
                                     using (var httpContent = CreateHttpContent(allocation))
-                                    using (var response = await this.httpClient.PostAsync(requestUri, httpContent).ConfigureAwait(true))
+                                    using (var response = await this.httpClient.PostAsync(requestUri, httpContent, cancellationToken).ConfigureAwait(false))
                                     {
                                         // Make sure we were successful and, if so, parse the JSON data into a structure.
                                         response.EnsureSuccessStatusCode();
                                         await semaphoreSlim.WaitAsync().ConfigureAwait(false);
-                                        realizedAllocations.Add(JsonConvert.DeserializeObject<Allocation>(await response.Content.ReadAsStringAsync().ConfigureAwait(true)));
+                                        realizedAllocations.Add(JsonConvert.DeserializeObject<Allocation>(await response.Content.ReadAsStringAsync().ConfigureAwait(false)));
                                         semaphoreSlim.Release();
                                     }
                                 },
@@ -91,7 +88,7 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                     }
 
                     // Wait here for all the parallel tasks to finish.
-                    await Task.WhenAll(tasks).ConfigureAwait(true);
+                    await Task.WhenAll(tasks).ConfigureAwait(false);
 
                     // This indicates we successfully created the allocations.
                     return realizedAllocations;
@@ -101,6 +98,9 @@ namespace ThetaRex.OpenBook.Mobile.Repository
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -117,11 +117,8 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                 throw new ArgumentNullException(nameof(proposedOrders));
             }
 
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // We're going to use add a mass of proposedOrders in parallel using the REST API.
-            var requestUri = $"rest/proposedOrders";
+            var requestUri = "rest/proposedOrders";
             try
             {
                 // The semaphore allows multiple parallel tasks to update the list containing the results.
@@ -139,12 +136,12 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                                 async () =>
                                 {
                                     using (var httpContent = CreateHttpContent(proposedOrder))
-                                    using (var response = await this.httpClient.PostAsync(requestUri, httpContent).ConfigureAwait(true))
+                                    using (var response = await this.httpClient.PostAsync(requestUri, httpContent, cancellationToken).ConfigureAwait(false))
                                     {
                                         // Make sure we were successful and, if so, parse the JSON data into a structure.
                                         response.EnsureSuccessStatusCode();
                                         await semaphoreSlim.WaitAsync().ConfigureAwait(false);
-                                        realizedProposedOrders.Add(JsonConvert.DeserializeObject<ProposedOrder>(await response.Content.ReadAsStringAsync().ConfigureAwait(true)));
+                                        realizedProposedOrders.Add(JsonConvert.DeserializeObject<ProposedOrder>(await response.Content.ReadAsStringAsync().ConfigureAwait(false)));
                                         semaphoreSlim.Release();
                                     }
                                 },
@@ -152,7 +149,7 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                     }
 
                     // Wait here for all the parallel tasks to finish.
-                    await Task.WhenAll(tasks).ConfigureAwait(true);
+                    await Task.WhenAll(tasks).ConfigureAwait(false);
 
                     // This indicates we successfully created the proposed orders.
                     return realizedProposedOrders;
@@ -162,6 +159,9 @@ namespace ThetaRex.OpenBook.Mobile.Repository
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -178,11 +178,8 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                 throw new ArgumentNullException(nameof(securityListMaps));
             }
 
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // We're going to use add a mass of securityListMaps in parallel using the REST API.
-            var requestUri = $"rest/securityListMaps";
+            var requestUri = "rest/securityListMaps";
             try
             {
                 // The semaphore allows multiple parallel tasks to update the list containing the results.
@@ -197,12 +194,12 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                             async () =>
                             {
                                 using (var httpContent = CreateHttpContent(securityListMap))
-                                using (var response = await this.httpClient.PostAsync(requestUri, httpContent, cancellationToken).ConfigureAwait(true))
+                                using (var response = await this.httpClient.PostAsync(requestUri, httpContent, cancellationToken).ConfigureAwait(false))
                                 {
                                     // Make sure we were successful and, if so, parse the JSON data into a structure.
                                     response.EnsureSuccessStatusCode();
                                     await semaphoreSlim.WaitAsync().ConfigureAwait(false);
-                                    realizedSecurityListMaps.Add(JsonConvert.DeserializeObject<SecurityListMap>(await response.Content.ReadAsStringAsync().ConfigureAwait(true)));
+                                    realizedSecurityListMaps.Add(JsonConvert.DeserializeObject<SecurityListMap>(await response.Content.ReadAsStringAsync().ConfigureAwait(false)));
                                     semaphoreSlim.Release();
                                 }
                             },
@@ -210,7 +207,7 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                     }
 
                     // Wait here for all the parallel tasks to finish.
-                    await Task.WhenAll(tasks).ConfigureAwait(true);
+                    await Task.WhenAll(tasks).ConfigureAwait(false);
 
                     // This indicates we successfully created the security list maps.
                     return realizedSecurityListMaps;
@@ -220,6 +217,9 @@ namespace ThetaRex.OpenBook.Mobile.Repository
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -236,9 +236,6 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                 throw new ArgumentNullException(nameof(sourceOrders));
             }
 
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // The results of adding the source orders.
             List<SourceOrder> realizedSourceOrders = null;
 
@@ -246,18 +243,22 @@ namespace ThetaRex.OpenBook.Mobile.Repository
             var requestUri = "transaction/sourceOrders";
             try
             {
+                var myHttpClient = this.httpClient as HttpClient;
                 using (var httpContent = CreateHttpContent(sourceOrders))
-                using (var response = await this.httpClient.PostAsync(requestUri, httpContent, cancellationToken).ConfigureAwait(true))
+                using (var response = await myHttpClient.PostAsync(requestUri, httpContent, cancellationToken).ConfigureAwait(false))
                 {
                     // Make sure we were successful and, if so, parse the JSON data into a structure.
                     response.EnsureSuccessStatusCode();
-                    realizedSourceOrders = JsonConvert.DeserializeObject<List<SourceOrder>>(await response.Content.ReadAsStringAsync().ConfigureAwait(true));
+                    realizedSourceOrders = JsonConvert.DeserializeObject<List<SourceOrder>>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
             catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -273,9 +274,6 @@ namespace ThetaRex.OpenBook.Mobile.Repository
             {
                 throw new ArgumentNullException(nameof(taxLots));
             }
-
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
 
             // Call the API to add a batch of stamped (time and user stamped) proposed order.
             var requestUri = "rest/taxLots";
@@ -293,13 +291,13 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                             async () =>
                             {
                                 using (var httpContent = CreateHttpContent(taxLot))
-                                using (var response = await this.httpClient.PostAsync(requestUri, httpContent).ConfigureAwait(true))
+                                using (var response = await this.httpClient.PostAsync(requestUri, httpContent, cancellationToken).ConfigureAwait(false))
                                 {
                                     // Make sure we were successful and, if so, put the resulting records in a list making sure we don't step on any
                                     // other tasks trying to access the list.
                                     response.EnsureSuccessStatusCode();
                                     await semaphoreSlim.WaitAsync().ConfigureAwait(false);
-                                    realizedTaxLots.Add(JsonConvert.DeserializeObject<TaxLot>(await response.Content.ReadAsStringAsync().ConfigureAwait(true)));
+                                    realizedTaxLots.Add(JsonConvert.DeserializeObject<TaxLot>(await response.Content.ReadAsStringAsync().ConfigureAwait(false)));
                                     semaphoreSlim.Release();
                                 }
                             },
@@ -307,13 +305,16 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                     }
 
                     // Wait here for all the parallel tasks to finish.
-                    await Task.WhenAll(tasks).ConfigureAwait(true);
+                    await Task.WhenAll(tasks).ConfigureAwait(false);
                 }
             }
             catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -330,9 +331,6 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                 throw new ArgumentNullException(nameof(alerts));
             }
 
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             try
             {
                 // Start running a parallel task to delete every tax lot that needs to be deleted.
@@ -347,7 +345,7 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                             {
                                 // This header allows the web service to check for optimistic concurrency violations.
                                 request.Headers.Add("If-None-Match", $"\"{alert.RowVersion}\"");
-                                using (HttpResponseMessage response = await this.httpClient.SendAsync(request).ConfigureAwait(true))
+                                using (HttpResponseMessage response = await this.httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false))
                                 {
                                     // Make sure we were successful ('Not Found' on a delete is not considered an error) and, if so, parse the JSON data into
                                     // a structure.
@@ -362,7 +360,7 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                 }
 
                 // Wait here for all the parallel tasks to finish.
-                await Task.WhenAll(tasks).ConfigureAwait(true);
+                await Task.WhenAll(tasks).ConfigureAwait(false);
 
                 // If we got here, then success.
                 return true;
@@ -371,6 +369,9 @@ namespace ThetaRex.OpenBook.Mobile.Repository
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -387,9 +388,6 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                 throw new ArgumentNullException(nameof(allocations));
             }
 
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             try
             {
                 // Start running a parallel task to delete every allocation that needs to be deleted.
@@ -404,7 +402,7 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                             {
                                 // This header allows the web service to check for optimistic concurrency violations.
                                 request.Headers.Add("If-None-Match", $"\"{allocation.RowVersion}\"");
-                                using (HttpResponseMessage response = await this.httpClient.SendAsync(request).ConfigureAwait(true))
+                                using (HttpResponseMessage response = await this.httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false))
                                 {
                                     // Make sure we were successful ('Not Found' on a delete is not considered an error) and, if so, parse the JSON data
                                     // into a structure.
@@ -419,7 +417,7 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                 }
 
                 // Wait here for all the parallel tasks to finish.
-                await Task.WhenAll(tasks).ConfigureAwait(true);
+                await Task.WhenAll(tasks).ConfigureAwait(false);
 
                 // If we got here, then success.
                 return true;
@@ -428,6 +426,9 @@ namespace ThetaRex.OpenBook.Mobile.Repository
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -444,9 +445,6 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                 throw new ArgumentNullException(nameof(proposedOrders));
             }
 
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             try
             {
                 // Start running a parallel task to delete every proposed order that needs to be deleted.
@@ -461,7 +459,7 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                             {
                                 // This header allows the web service to check for optimistic concurrency violations.
                                 request.Headers.Add("If-None-Match", $"\"{proposedOrder.RowVersion}\"");
-                                using (HttpResponseMessage response = await this.httpClient.SendAsync(request).ConfigureAwait(true))
+                                using (HttpResponseMessage response = await this.httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false))
                                 {
                                     // Make sure we were successful ('Not Found' on a delete is not considered an error) and, if so, parse the JSON data into
                                     // a structure.
@@ -476,7 +474,7 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                 }
 
                 // Wait here for all the parallel tasks to finish.
-                await Task.WhenAll(tasks).ConfigureAwait(true);
+                await Task.WhenAll(tasks).ConfigureAwait(false);
 
                 // If we got here, then success.
                 return true;
@@ -485,6 +483,9 @@ namespace ThetaRex.OpenBook.Mobile.Repository
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -501,9 +502,6 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                 throw new ArgumentNullException(nameof(securityListMaps));
             }
 
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // Ask for the JSON data at the requested URI.
             try
             {
@@ -512,7 +510,7 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                     using (var request = new HttpRequestMessage(HttpMethod.Delete, $"rest/securityListMaps/{securityListMap.SecurityListMapId}"))
                     {
                         request.Headers.Add("If-None-Match", $"\"{securityListMap.RowVersion}\"");
-                        using (HttpResponseMessage response = await this.httpClient.SendAsync(request, cancellationToken).ConfigureAwait(true))
+                        using (HttpResponseMessage response = await this.httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false))
                         {
                             // Make sure we were successful ('Not Found' on a delete is not considered an error) and, if so, parse the JSON data into
                             // a structure.
@@ -533,6 +531,9 @@ namespace ThetaRex.OpenBook.Mobile.Repository
             catch (TaskCanceledException)
             {
             }
+            catch (AggregateException)
+            {
+            }
 
             // Failed at some level.
             return false;
@@ -547,52 +548,39 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                 throw new ArgumentNullException(nameof(destinationOrders));
             }
 
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
+            // The results of deleting the batch of source orders.
+            bool isDeleted = false;
 
+            // We're going to use add a mass of destinationOrders in parallel using the REST API.
+            var requestUri = "transaction/destinationOrders";
             try
             {
-                // Start running a parallel task to delete every source order that needs to be deleted.
-                List<Task> tasks = new List<Task>();
-                foreach (DestinationOrder destinationOrder in destinationOrders)
+                var content = from @do in destinationOrders
+                              select new { @do.DestinationOrderId, @do.RowVersion };
+                using (var httpContent = CreateHttpContent(content))
+                using (var request = new HttpRequestMessage(HttpMethod.Delete, requestUri))
                 {
-                    tasks.Add(Task.Run(
-                        async () =>
-                        {
-                            // Use the REST API to delete the source order.
-                            using (var request = new HttpRequestMessage(HttpMethod.Delete, $"rest/destinationOrders/{destinationOrder.DestinationOrderId}"))
-                            {
-                                // This header allows the web service to check for optimistic concurrency violations.
-                                request.Headers.Add("If-None-Match", $"\"{destinationOrder.RowVersion}\"");
-                                using (HttpResponseMessage response = await this.httpClient.SendAsync(request).ConfigureAwait(true))
-                                {
-                                    // Make sure we were successful ('Not Found' on a delete is not considered an error) and, if so, parse the JSON data
-                                    // into a structure.
-                                    if (response.StatusCode != HttpStatusCode.NotFound)
-                                    {
-                                        response.EnsureSuccessStatusCode();
-                                    }
-                                }
-                            }
-                        },
-                        cancellationToken));
+                    request.Content = httpContent;
+                    using (HttpResponseMessage response = await this.httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false))
+                    {
+                        // Make sure we were successful and, if so, parse the JSON data into a structure.
+                        response.EnsureSuccessStatusCode();
+                        isDeleted = true;
+                    }
                 }
-
-                // Wait here for all the parallel tasks to finish.
-                await Task.WhenAll(tasks).ConfigureAwait(true);
-
-                // If we got here, then success.
-                return true;
             }
-            catch (HttpRequestException)
+            catch (HttpRequestException httpRequestException)
             {
+                System.Diagnostics.Debug.WriteLine(httpRequestException.Message);
             }
             catch (TaskCanceledException)
             {
             }
+            catch (AggregateException)
+            {
+            }
 
-            // Failed at some level.
-            return false;
+            return isDeleted;
         }
 
         /// <inheritdoc/>
@@ -604,52 +592,39 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                 throw new ArgumentNullException(nameof(executions));
             }
 
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
+            // The results of deleting the batch of source orders.
+            bool isDeleted = false;
 
+            // We're going to use add a mass of executions in parallel using the REST API.
+            var requestUri = "transaction/executions";
             try
             {
-                // Start running a parallel task to delete every source order that needs to be deleted.
-                List<Task> tasks = new List<Task>();
-                foreach (Execution execution in executions)
+                var content = from e in executions
+                              select new { e.ExecutionId, RowVersion = e.RowVersion };
+                using (var httpContent = CreateHttpContent(content))
+                using (var request = new HttpRequestMessage(HttpMethod.Delete, requestUri))
                 {
-                    tasks.Add(Task.Run(
-                        async () =>
-                        {
-                            // Use the REST API to delete the execution.
-                            using (var request = new HttpRequestMessage(HttpMethod.Delete, $"rest/executions/{execution.ExecutionId}"))
-                            {
-                                // This header allows the web service to check for optimistic concurrency violations.
-                                request.Headers.Add("If-None-Match", $"\"{execution.RowVersion}\"");
-                                using (HttpResponseMessage response = await this.httpClient.SendAsync(request).ConfigureAwait(true))
-                                {
-                                    // Make sure we were successful ('Not Found' on a delete is not considered an error) and, if so, parse the JSON data into
-                                    // a structure.
-                                    if (response.StatusCode != HttpStatusCode.NotFound)
-                                    {
-                                        response.EnsureSuccessStatusCode();
-                                    }
-                                }
-                            }
-                        },
-                        cancellationToken));
+                    request.Content = httpContent;
+                    using (HttpResponseMessage response = await this.httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false))
+                    {
+                        // Make sure we were successful and, if so, parse the JSON data into a structure.
+                        response.EnsureSuccessStatusCode();
+                        isDeleted = true;
+                    }
                 }
-
-                // Wait here for all the parallel tasks to finish.
-                await Task.WhenAll(tasks).ConfigureAwait(true);
-
-                // If we got here, then success.
-                return true;
             }
-            catch (HttpRequestException)
+            catch (HttpRequestException httpRequestException)
             {
+                System.Diagnostics.Debug.WriteLine(httpRequestException.Message);
             }
             catch (TaskCanceledException)
             {
             }
+            catch (AggregateException)
+            {
+            }
 
-            // Failed at some level.
-            return false;
+            return isDeleted;
         }
 
         /// <inheritdoc/>
@@ -660,9 +635,6 @@ namespace ThetaRex.OpenBook.Mobile.Repository
             {
                 throw new ArgumentNullException(nameof(sourceOrders));
             }
-
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
 
             // The results of deleting the batch of source orders.
             bool isDeleted = false;
@@ -677,7 +649,7 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                 using (var request = new HttpRequestMessage(HttpMethod.Delete, requestUri))
                 {
                     request.Content = httpContent;
-                    using (HttpResponseMessage response = await this.httpClient.SendAsync(request, cancellationToken).ConfigureAwait(true))
+                    using (HttpResponseMessage response = await this.httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false))
                     {
                         // Make sure we were successful and, if so, parse the JSON data into a structure.
                         response.EnsureSuccessStatusCode();
@@ -690,6 +662,9 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                 System.Diagnostics.Debug.WriteLine(httpRequestException.Message);
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -705,9 +680,6 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                 throw new ArgumentNullException(nameof(taxLots));
             }
 
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             try
             {
                 // Start running a parallel task to delete every tax lot that needs to be deleted.
@@ -722,7 +694,7 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                             {
                                 // This header allows the web service to check for optimistic concurrency violations.
                                 request.Headers.Add("If-None-Match", $"\"{taxLot.RowVersion}\"");
-                                using (HttpResponseMessage response = await this.httpClient.SendAsync(request).ConfigureAwait(true))
+                                using (HttpResponseMessage response = await this.httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false))
                                 {
                                     // Make sure we were successful ('Not Found' on a delete is not considered an error) and, if so, parse the JSON data into
                                     // a structure.
@@ -737,7 +709,7 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                 }
 
                 // Wait here for all the parallel tasks to finish.
-                await Task.WhenAll(tasks).ConfigureAwait(true);
+                await Task.WhenAll(tasks).ConfigureAwait(false);
 
                 // If we got here, then success.
                 return true;
@@ -748,6 +720,9 @@ namespace ThetaRex.OpenBook.Mobile.Repository
             catch (TaskCanceledException)
             {
             }
+            catch (AggregateException)
+            {
+            }
 
             // Failed at some level.
             return false;
@@ -756,25 +731,25 @@ namespace ThetaRex.OpenBook.Mobile.Repository
         /// <inheritdoc/>
         public async Task<Account> GetAccountByAccountExternalKeyAsync(string mnemonic, CancellationToken cancellationToken = default)
         {
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // Call the API to request the account.
             var requestUri = $"rest/accounts/accountExternalKey/{mnemonic}";
             Account account = null;
             try
             {
-                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(true))
+                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
                 {
                     // Make sure we were successful and, if so, parse the JSON data into a structure.
                     response.EnsureSuccessStatusCode();
-                    account = JsonConvert.DeserializeObject<Account>(await response.Content.ReadAsStringAsync().ConfigureAwait(true));
+                    account = JsonConvert.DeserializeObject<Account>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
             catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -785,25 +760,25 @@ namespace ThetaRex.OpenBook.Mobile.Repository
         /// <inheritdoc/>
         public async Task<IEnumerable<Account>> GetAccountsAsync(CancellationToken cancellationToken = default)
         {
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // Call the API to request the account.
             var requestUri = "rest/accounts";
             IEnumerable<Account> accounts = null;
             try
             {
-                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(true))
+                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
                 {
                     // Make sure we were successful and, if so, parse the JSON data into a structure.
                     response.EnsureSuccessStatusCode();
-                    accounts = JsonConvert.DeserializeObject<IEnumerable<Account>>(await response.Content.ReadAsStringAsync().ConfigureAwait(true));
+                    accounts = JsonConvert.DeserializeObject<IEnumerable<Account>>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
             catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -814,26 +789,25 @@ namespace ThetaRex.OpenBook.Mobile.Repository
         /// <inheritdoc/>
         public async Task<IEnumerable<Alert>> GetAlertsAsync(CancellationToken cancellationToken = default)
         {
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-            this.httpClient.Authenticated.WaitOne();
-
             // Call the API to add a batch of stamped (time and user stamped) proposed order.
             var requestUri = $"rest/alerts";
             List<Alert> alerts = null;
             try
             {
-                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(true))
+                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
                 {
                     // Make sure we were successful and, if so, parse the JSON data into a structure.
                     response.EnsureSuccessStatusCode();
-                    alerts = JsonConvert.DeserializeObject<List<Alert>>(await response.Content.ReadAsStringAsync().ConfigureAwait(true));
+                    alerts = JsonConvert.DeserializeObject<List<Alert>>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
             catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -843,25 +817,25 @@ namespace ThetaRex.OpenBook.Mobile.Repository
         /// <inheritdoc/>
         public async Task<IEnumerable<Allocation>> GetAllocationsAsync(CancellationToken cancellationToken = default)
         {
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // Call the API to add a batch of stamped (time and user stamped) proposed order.
             var requestUri = $"rest/allocations";
             List<Allocation> allocations = null;
             try
             {
-                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(true))
+                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
                 {
                     // Make sure we were successful and, if so, parse the JSON data into a structure.
                     response.EnsureSuccessStatusCode();
-                    allocations = JsonConvert.DeserializeObject<List<Allocation>>(await response.Content.ReadAsStringAsync().ConfigureAwait(true));
+                    allocations = JsonConvert.DeserializeObject<List<Allocation>>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
             catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -872,25 +846,25 @@ namespace ThetaRex.OpenBook.Mobile.Repository
         /// <inheritdoc/>
         public async Task<IEnumerable<Blotter>> GetBlottersAsync(CancellationToken cancellationToken = default)
         {
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // Call the API to request the account.
             var requestUri = "rest/blotters";
             IEnumerable<Blotter> blotters = null;
             try
             {
-                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(true))
+                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
                 {
                     // Make sure we were successful and, if so, parse the JSON data into a structure.
                     response.EnsureSuccessStatusCode();
-                    blotters = JsonConvert.DeserializeObject<IEnumerable<Blotter>>(await response.Content.ReadAsStringAsync().ConfigureAwait(true));
+                    blotters = JsonConvert.DeserializeObject<IEnumerable<Blotter>>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
             catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -901,25 +875,25 @@ namespace ThetaRex.OpenBook.Mobile.Repository
         /// <inheritdoc/>
         public async Task<IEnumerable<Broker>> GetBrokersAsync(CancellationToken cancellationToken = default)
         {
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // Call the API to request the account.
             var requestUri = "rest/brokers";
             IEnumerable<Broker> brokers = null;
             try
             {
-                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(true))
+                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
                 {
                     // Make sure we were successful and, if so, parse the JSON data into a structure.
                     response.EnsureSuccessStatusCode();
-                    brokers = JsonConvert.DeserializeObject<IEnumerable<Broker>>(await response.Content.ReadAsStringAsync().ConfigureAwait(true));
+                    brokers = JsonConvert.DeserializeObject<IEnumerable<Broker>>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
             catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -930,25 +904,25 @@ namespace ThetaRex.OpenBook.Mobile.Repository
         /// <inheritdoc/>
         public async Task<CategoryBenchmark> GetCategoryBenchmarkByCategoryBenchmarkExternalKeyAsync(string externalId, CancellationToken cancellationToken = default)
         {
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // Call the API to add a batch of stamped (time and user stamped) proposed order.
             var requestUri = $"rest/categoryBenchmarks/categoryBenchmarkExternalKey/{externalId}";
             CategoryBenchmark categoryBenchmark = null;
             try
             {
-                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(true))
+                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
                 {
                     // Make sure we were successful and, if so, parse the JSON data into a structure.
                     response.EnsureSuccessStatusCode();
-                    categoryBenchmark = JsonConvert.DeserializeObject<CategoryBenchmark>(await response.Content.ReadAsStringAsync().ConfigureAwait(true));
+                    categoryBenchmark = JsonConvert.DeserializeObject<CategoryBenchmark>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
             catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -959,25 +933,25 @@ namespace ThetaRex.OpenBook.Mobile.Repository
         /// <inheritdoc/>
         public async Task<IEnumerable<DestinationOrder>> GetDestinationOrdersAsync(CancellationToken cancellationToken = default)
         {
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // Call the API to add a batch of stamped (time and user stamped) source order.
             var requestUri = $"rest/destinationOrders";
             List<DestinationOrder> destinationOrders = null;
             try
             {
-                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(true))
+                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
                 {
                     // Make sure we were successful and, if so, parse the JSON data into a structure.
                     response.EnsureSuccessStatusCode();
-                    destinationOrders = JsonConvert.DeserializeObject<List<DestinationOrder>>(await response.Content.ReadAsStringAsync().ConfigureAwait(true));
+                    destinationOrders = JsonConvert.DeserializeObject<List<DestinationOrder>>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
             catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -988,25 +962,25 @@ namespace ThetaRex.OpenBook.Mobile.Repository
         /// <inheritdoc/>
         public async Task<IEnumerable<Execution>> GetExecutionsAsync(CancellationToken cancellationToken = default)
         {
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // Call the API to add a batch of stamped (time and user stamped) source order.
             var requestUri = $"rest/executions";
             List<Execution> executions = null;
             try
             {
-                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(true))
+                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
                 {
                     // Make sure we were successful and, if so, parse the JSON data into a structure.
                     response.EnsureSuccessStatusCode();
-                    executions = JsonConvert.DeserializeObject<List<Execution>>(await response.Content.ReadAsStringAsync().ConfigureAwait(true));
+                    executions = JsonConvert.DeserializeObject<List<Execution>>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
             catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -1017,25 +991,25 @@ namespace ThetaRex.OpenBook.Mobile.Repository
         /// <inheritdoc/>
         public async Task<IEnumerable<ManagedAccount>> GetManagedAccountsAsync(CancellationToken cancellationToken = default)
         {
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // Call the API to request the account.
             var requestUri = "rest/managedaccounts";
             IEnumerable<ManagedAccount> accounts = null;
             try
             {
-                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(true))
+                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
                 {
                     // Make sure we were successful and, if so, parse the JSON data into a structure.
                     response.EnsureSuccessStatusCode();
-                    accounts = JsonConvert.DeserializeObject<IEnumerable<ManagedAccount>>(await response.Content.ReadAsStringAsync().ConfigureAwait(true));
+                    accounts = JsonConvert.DeserializeObject<IEnumerable<ManagedAccount>>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
             catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -1046,25 +1020,25 @@ namespace ThetaRex.OpenBook.Mobile.Repository
         /// <inheritdoc/>
         public async Task<Price> GetPriceByExternalIdAsync(string externalId, CancellationToken cancellationToken = default)
         {
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // Call the API to add a batch of stamped (time and user stamped) proposed order.
             var requestUri = $"rest/prices/priceExternalKey/{externalId}";
             Price price = null;
             try
             {
-                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(true))
+                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
                 {
                     // Make sure we were successful and, if so, parse the JSON data into a structure.
                     response.EnsureSuccessStatusCode();
-                    price = JsonConvert.DeserializeObject<Price>(await response.Content.ReadAsStringAsync().ConfigureAwait(true));
+                    price = JsonConvert.DeserializeObject<Price>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
             catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -1075,25 +1049,25 @@ namespace ThetaRex.OpenBook.Mobile.Repository
         /// <inheritdoc/>
         public async Task<Price> GetPriceByFigiAsync(string figi, CancellationToken cancellationToken = default)
         {
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // Call the API to add a batch of stamped (time and user stamped) proposed order.
             var requestUri = $"rest/prices/priceFigiKey/{figi}";
             Price price = null;
             try
             {
-                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(true))
+                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
                 {
                     // Make sure we were successful and, if so, parse the JSON data into a structure.
                     response.EnsureSuccessStatusCode();
-                    price = JsonConvert.DeserializeObject<Price>(await response.Content.ReadAsStringAsync().ConfigureAwait(true));
+                    price = JsonConvert.DeserializeObject<Price>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
             catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -1104,25 +1078,25 @@ namespace ThetaRex.OpenBook.Mobile.Repository
         /// <inheritdoc/>
         public async Task<IEnumerable<Price>> GetPricesAsync(CancellationToken cancellationToken = default)
         {
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // Call the API to add a batch of stamped (time and user stamped) proposed order.
             var requestUri = $"rest/prices";
             List<Price> prices = null;
             try
             {
-                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(true))
+                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
                 {
                     // Make sure we were successful and, if so, parse the JSON data into a structure.
                     response.EnsureSuccessStatusCode();
-                    prices = JsonConvert.DeserializeObject<List<Price>>(await response.Content.ReadAsStringAsync().ConfigureAwait(true));
+                    prices = JsonConvert.DeserializeObject<List<Price>>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
             catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -1133,25 +1107,25 @@ namespace ThetaRex.OpenBook.Mobile.Repository
         /// <inheritdoc/>
         public async Task<IEnumerable<ProposedOrder>> GetProposedOrdersAsync(CancellationToken cancellationToken = default)
         {
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // Call the API to add a batch of stamped (time and user stamped) proposed order.
             var requestUri = $"rest/proposedOrders";
             List<ProposedOrder> proposedOrders = null;
             try
             {
-                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(true))
+                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
                 {
                     // Make sure we were successful and, if so, parse the JSON data into a structure.
                     response.EnsureSuccessStatusCode();
-                    proposedOrders = JsonConvert.DeserializeObject<List<ProposedOrder>>(await response.Content.ReadAsStringAsync().ConfigureAwait(true));
+                    proposedOrders = JsonConvert.DeserializeObject<List<ProposedOrder>>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
             catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -1162,25 +1136,25 @@ namespace ThetaRex.OpenBook.Mobile.Repository
         /// <inheritdoc/>
         public async Task<IEnumerable<Security>> GetSecuritiesAsync(CancellationToken cancellationToken = default)
         {
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // Call the API to add a batch of stamped (time and user stamped) proposed order.
             var requestUri = $"rest/securities";
             List<Security> securities = null;
             try
             {
-                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(true))
+                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
                 {
                     // Make sure we were successful and, if so, parse the JSON data into a structure.
                     response.EnsureSuccessStatusCode();
-                    securities = JsonConvert.DeserializeObject<List<Security>>(await response.Content.ReadAsStringAsync().ConfigureAwait(true));
+                    securities = JsonConvert.DeserializeObject<List<Security>>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
             catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -1191,25 +1165,25 @@ namespace ThetaRex.OpenBook.Mobile.Repository
         /// <inheritdoc/>
         public async Task<Security> GetSecurityByExternalIdAsync(string externalId, CancellationToken cancellationToken = default)
         {
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // Call the API to add a batch of stamped (time and user stamped) proposed order.
             var requestUri = $"rest/securities/securityExternalKey/{externalId}";
             Security security = null;
             try
             {
-                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(true))
+                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
                 {
                     // Make sure we were successful and, if so, parse the JSON data into a structure.
                     response.EnsureSuccessStatusCode();
-                    security = JsonConvert.DeserializeObject<Security>(await response.Content.ReadAsStringAsync().ConfigureAwait(true));
+                    security = JsonConvert.DeserializeObject<Security>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
             catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -1220,25 +1194,25 @@ namespace ThetaRex.OpenBook.Mobile.Repository
         /// <inheritdoc/>
         public async Task<Security> GetSecurityByFigiAsync(string figi, CancellationToken cancellationToken = default)
         {
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // Call the API to add a batch of stamped (time and user stamped) proposed order.
             var requestUri = $"rest/securities/securityFigiKey/{figi}";
             Security security = null;
             try
             {
-                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(true))
+                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
                 {
                     // Make sure we were successful and, if so, parse the JSON data into a structure.
                     response.EnsureSuccessStatusCode();
-                    security = JsonConvert.DeserializeObject<Security>(await response.Content.ReadAsStringAsync().ConfigureAwait(true));
+                    security = JsonConvert.DeserializeObject<Security>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
             catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -1249,25 +1223,25 @@ namespace ThetaRex.OpenBook.Mobile.Repository
         /// <inheritdoc/>
         public async Task<IEnumerable<SecurityList>> GetSecurityListAsync(CancellationToken cancellationToken = default)
         {
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // Call the API to add a batch of stamped (time and user stamped) proposed order.
             var requestUri = $"rest/securityLists";
             List<SecurityList> securityLists = null;
             try
             {
-                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(true))
+                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
                 {
                     // Make sure we were successful and, if so, parse the JSON data into a structure.
                     response.EnsureSuccessStatusCode();
-                    securityLists = JsonConvert.DeserializeObject<List<SecurityList>>(await response.Content.ReadAsStringAsync().ConfigureAwait(true));
+                    securityLists = JsonConvert.DeserializeObject<List<SecurityList>>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
             catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -1278,25 +1252,25 @@ namespace ThetaRex.OpenBook.Mobile.Repository
         /// <inheritdoc/>
         public async Task<IEnumerable<SecurityListMap>> GetSecurityListMapsAsync(CancellationToken cancellationToken = default)
         {
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // Call the API to add a batch of stamped (time and user stamped) proposed order.
             var requestUri = $"rest/securityListMaps";
             List<SecurityListMap> securityListMaps = null;
             try
             {
-                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(true))
+                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
                 {
                     // Make sure we were successful and, if so, parse the JSON data into a structure.
                     response.EnsureSuccessStatusCode();
-                    securityListMaps = JsonConvert.DeserializeObject<List<SecurityListMap>>(await response.Content.ReadAsStringAsync().ConfigureAwait(true));
+                    securityListMaps = JsonConvert.DeserializeObject<List<SecurityListMap>>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
             catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -1307,25 +1281,25 @@ namespace ThetaRex.OpenBook.Mobile.Repository
         /// <inheritdoc/>
         public async Task<IEnumerable<SourceOrder>> GetSourceOrdersAsync(CancellationToken cancellationToken = default)
         {
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // Call the API to add a batch of stamped (time and user stamped) source order.
             var requestUri = $"rest/sourceOrders";
             List<SourceOrder> sourceOrders = null;
             try
             {
-                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(true))
+                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
                 {
                     // Make sure we were successful and, if so, parse the JSON data into a structure.
                     response.EnsureSuccessStatusCode();
-                    sourceOrders = JsonConvert.DeserializeObject<List<SourceOrder>>(await response.Content.ReadAsStringAsync().ConfigureAwait(true));
+                    sourceOrders = JsonConvert.DeserializeObject<List<SourceOrder>>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
             catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -1336,25 +1310,25 @@ namespace ThetaRex.OpenBook.Mobile.Repository
         /// <inheritdoc/>
         public async Task<IEnumerable<TaxLot>> GetTaxLotsAsync(int accountId, CancellationToken cancellationToken = default)
         {
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // Call the API to add a batch of stamped (time and user stamped) source order.
             var requestUri = $"transaction/taxLots/accountKey/{accountId}";
             List<TaxLot> taxLots = null;
             try
             {
-                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(true))
+                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
                 {
                     // Make sure we were successful and, if so, parse the JSON data into a structure.
                     response.EnsureSuccessStatusCode();
-                    taxLots = JsonConvert.DeserializeObject<List<TaxLot>>(await response.Content.ReadAsStringAsync().ConfigureAwait(true));
+                    taxLots = JsonConvert.DeserializeObject<List<TaxLot>>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
             catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -1365,25 +1339,25 @@ namespace ThetaRex.OpenBook.Mobile.Repository
         /// <inheritdoc/>
         public async Task<User> GetCurrentUserAsync(CancellationToken cancellationToken = default)
         {
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // Call the API to add a batch of stamped (time and user stamped) working order.
             var requestUri = $"transaction/currentUser";
             User user = null;
             try
             {
-                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(true))
+                using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
                 {
                     // Make sure we were successful and, if so, parse the JSON data into a structure.
                     response.EnsureSuccessStatusCode();
-                    user = JsonConvert.DeserializeObject<User>(await response.Content.ReadAsStringAsync().ConfigureAwait(true));
+                    user = JsonConvert.DeserializeObject<User>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
             catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
@@ -1394,14 +1368,11 @@ namespace ThetaRex.OpenBook.Mobile.Repository
         /// <inheritdoc/>
         public async Task SendOrdersAsync(CancellationToken cancellationToken = default)
         {
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // Post the command that will create the destination orders which will then be sent to the broker for execution.
             var requestUri = $"transaction/orders/SendOrders";
             try
             {
-                using (var response = await this.httpClient.PostAsync(requestUri, null, cancellationToken).ConfigureAwait(true))
+                using (var response = await this.httpClient.PostAsync(requestUri, null, cancellationToken).ConfigureAwait(false))
                 {
                     response.EnsureSuccessStatusCode();
                 }
@@ -1412,14 +1383,14 @@ namespace ThetaRex.OpenBook.Mobile.Repository
             catch (TaskCanceledException)
             {
             }
+            catch (AggregateException)
+            {
+            }
         }
 
         /// <inheritdoc/>
         public async Task<List<CategoryBenchmark>> UpdateClassificationBenchmarkAsync(IEnumerable<CategoryBenchmark> categoryBenchmarks, CancellationToken cancellationToken = default)
         {
-            // Wait for an authenticated client.
-            this.httpClient.Authenticated.WaitOne();
-
             // Validate the argument
             if (categoryBenchmarks == null)
             {
@@ -1446,11 +1417,11 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                                     // This header allows the web service to check for optimistic concurrency violations.
                                     request.Headers.Add("If-None-Match", $"\"{categoryBenchmark.RowVersion}\"");
                                     using (request.Content = CreateHttpContent(categoryBenchmark))
-                                    using (HttpResponseMessage response = await this.httpClient.SendAsync(request).ConfigureAwait(true))
+                                    using (HttpResponseMessage response = await this.httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false))
                                     {
                                         response.EnsureSuccessStatusCode();
                                         await semaphoreSlim.WaitAsync().ConfigureAwait(false);
-                                        realizedCategoryBenchmarks.Add(JsonConvert.DeserializeObject<CategoryBenchmark>(await response.Content.ReadAsStringAsync().ConfigureAwait(true)));
+                                        realizedCategoryBenchmarks.Add(JsonConvert.DeserializeObject<CategoryBenchmark>(await response.Content.ReadAsStringAsync().ConfigureAwait(false)));
                                         semaphoreSlim.Release();
                                     }
                                 }
@@ -1459,13 +1430,16 @@ namespace ThetaRex.OpenBook.Mobile.Repository
                     }
 
                     // Wait here for all the parallel tasks to finish.
-                    await Task.WhenAll(tasks).ConfigureAwait(true);
+                    await Task.WhenAll(tasks).ConfigureAwait(false);
                 }
             }
             catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
             {
             }
 
