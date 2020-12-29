@@ -213,7 +213,7 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             if (newPrice != null)
             {
                 newPrice.LastPrice = this.Price;
-                await this.repository.UpdatePriceAsync(newPrice).ConfigureAwait(true);
+                await this.repository.UpdatePriceAsync(new Price[] { newPrice }).ConfigureAwait(true);
             }
         }
 
@@ -264,7 +264,8 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
         /// </summary>
         private async Task ResetScenariosAsync()
         {
-            // Reset all the prices.
+            // Reset the prices to the value they had when we started the application.  This is a quick way to clear
+            List<Price> prices = new List<Price>();
             foreach (string figi in ChangePriceViewModel.SingleAccount)
             {
                 var oldPrice = this.domain.FindPriceByFigi(figi);
@@ -272,9 +273,12 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
                 if (newPrice != null)
                 {
                     newPrice.LastPrice = oldPrice.LastPrice;
-                    await this.repository.UpdatePriceAsync(newPrice).ConfigureAwait(true);
+                    prices.Add(newPrice);
                 }
             }
+
+            // Update all the prices in the local scenario.
+            await this.repository.UpdatePriceAsync(prices).ConfigureAwait(true);
 
             // Re-select the latest object to update the values.
             string selectedFigi = ((Tuple<string, string>)this.selectedItem).Item1;

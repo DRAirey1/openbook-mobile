@@ -1448,33 +1448,6 @@ namespace ThetaRex.OpenBook.Mobile.Repository
         }
 
         /// <inheritdoc/>
-        public async Task UpdatePriceAsync(Price price, CancellationToken cancellationToken)
-        {
-            try
-            {
-                // Send the prices to the web service.
-                using (var request = new HttpRequestMessage(HttpMethod.Put, $"rest/prices/priceKey/{price.PriceId}"))
-                using (request.Content = CreateHttpContent(price))
-                {
-                    request.Headers.Add("If-None-Match", $"\"{price.RowVersion}\"");
-                    using (HttpResponseMessage response = await this.httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false))
-                    {
-                        response.EnsureSuccessStatusCode();
-                    }
-                }
-            }
-            catch (HttpRequestException)
-            {
-            }
-            catch (TaskCanceledException)
-            {
-            }
-            catch (AggregateException)
-            {
-            }
-        }
-
-        /// <inheritdoc/>
         public async Task UpdatePriceAsync(IEnumerable<Price> prices, CancellationToken cancellationToken)
         {
             // Validate the argument

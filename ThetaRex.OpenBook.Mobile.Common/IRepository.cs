@@ -301,13 +301,5 @@ namespace ThetaRex.OpenBook.Mobile.Common
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A task for waiting.</returns>
         Task UpdatePriceAsync(IEnumerable<Price> prices, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Updates a price.
-        /// </summary>
-        /// <param name="price">The new price.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>The updated price.</returns>
-        Task UpdatePriceAsync(Price price, CancellationToken cancellationToken = default);
     }
 }
