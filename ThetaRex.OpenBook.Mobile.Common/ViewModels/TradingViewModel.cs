@@ -57,6 +57,11 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
         private readonly Domain domain;
 
         /// <summary>
+        /// The navigation interface for selecting scenarios.
+        /// </summary>
+        private readonly Navigator navigator;
+
+        /// <summary>
         /// A random number generator.
         /// </summary>
         private readonly Random random = new Random();
@@ -85,13 +90,20 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
         /// Initializes a new instance of the <see cref="TradingViewModel"/> class.
         /// </summary>
         /// <param name="domain">Data domain for the mobile application.</param>
+        /// <param name="navigator">The view model based navigation.</param>
         /// <param name="repository">The data repository.</param>
         /// <param name="stringLocalizer">The string localizer.</param>
         /// <param name="user">The identity of the current user.</param>
-        public TradingViewModel(Domain domain, IRepository repository, IStringLocalizer<TradingViewModel> stringLocalizer, User user)
+        public TradingViewModel(
+            Domain domain,
+            Navigator navigator,
+            IRepository repository,
+            IStringLocalizer<TradingViewModel> stringLocalizer,
+            User user)
         {
             // Initialize the object.
             this.domain = domain;
+            this.navigator = navigator;
             this.repository = repository;
             this.stringLocalizer = stringLocalizer;
             this.user = user;
@@ -100,7 +112,7 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
             this.Title = this.stringLocalizer["Title"];
 
             // Use the data domain to pre-construct the trades used in this scenario.
-            this.InitializeData();
+            Task task = Task.Run(this.InitializeData);
 
             // Listen for the reset signal from the main page.
             MessagingCenter.Subscribe(
@@ -223,89 +235,85 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
         /// </summary>
         private void InitializeData()
         {
-            // Don't let this long running task prevent the constructor from completing.
-            Task task = Task.Run(() =>
+            // Wait for the domain to be initialized.
+            this.domain.Initialized.WaitOne();
+
+            // We're going to build baskets for CHINA.
+            Account china = this.domain.FindAccount("CHINA");
+            ManagedAccount managedAccount = this.domain.FindManagedAccount("CHINA");
+
+            // For the single account scenario, create a basket representing the DOW 30.
+            foreach (string figi in TradingViewModel.SingleAccount)
             {
-                // Wait for the domain to be initialized.
-                this.domain.Initialized.WaitOne();
+                // Each order will be for 1% of the NAV.
+                Security security = this.domain.FindSecurityByFigi(figi);
+                Price price = this.domain.FindPriceByFigi(figi);
+                this.singleAccountBasket.Add(
+                    new SourceOrder
+                    {
+                        AccountId = china.AccountId,
+                        OrderTypeCode = OrderTypeCode.Market,
+                        Quantity = Convert.ToDecimal(Math.Floor(Convert.ToDouble(managedAccount.NetAssetValue) * 0.01d / (100.0d * Convert.ToDouble(price.ClosePrice))) * 100.0d),
+                        SecurityId = security.SecurityId,
+                        SideCode = this.random.Next(0, 2) == 0 ? SideCode.Sell : SideCode.Buy,
+                        TimeInForce = TimeInForceCode.Day,
+                    });
+            }
 
-                // We're going to build baskets for CHINA.
-                Account china = this.domain.FindAccount("CHINA");
-                ManagedAccount managedAccount = this.domain.FindManagedAccount("CHINA");
+            // We don't want to clutter the blotter with a bunch of orders that look like they can be crossed.  So when we create a random order
+            // for a security, all the other random orders for that security will have the same side.  This dictionary insures that each order
+            // for a name has the same side as every other order for that name.
+            Dictionary<string, SideCode> sideDictionary = new Dictionary<string, SideCode>();
+            TradingViewModel.BulkAccount.ForEach(f => sideDictionary.Add(f, this.random.Next(0, 2) == 0 ? SideCode.Buy : SideCode.Sell));
+            TradingViewModel.SinStocks.ForEach(f => sideDictionary.Add(f, this.random.Next(0, 2) == 0 ? SideCode.Buy : SideCode.Sell));
 
-                // For the single account scenario, create a basket representing the DOW 30.
-                foreach (string figi in TradingViewModel.SingleAccount)
+            // For the bulk account scenario, create a basket of the top 100 stocks by market value for the first 30 accounts.
+            var accounts = (from a in this.domain.Accounts
+                            where a.AccountTypeCode == AccountTypeCode.ManagedAccount && !TradingViewModel.RestrictedAccounts.Contains(a.Mnemonic)
+                            select a)
+                            .Take(100)
+                            .ToList();
+            for (int accountCounter = 0; accountCounter < accounts.Count; accountCounter++)
+            {
+                // Create a basket of optimized orders for the next account.
+                Account account = accounts[accountCounter];
+
+                // Create a random basket of 50 securities that represent a optimization reblancing.
+                HashSet<Security> basket = new HashSet<Security>();
+                int basketSize = this.random.Next(20, 30);
+                while (basket.Count < basketSize)
                 {
-                    // Each order will be for 1% of the NAV.
-                    Security security = this.domain.FindSecurityByFigi(figi);
-                    Price price = this.domain.FindPriceByFigi(figi);
-                    this.singleAccountBasket.Add(
+                    int index = this.random.Next(0, TradingViewModel.BulkAccount.Count);
+                    string figi = TradingViewModel.BulkAccount[index];
+
+                    // This security is now part of the randomly constructed basket.
+                    basket.Add(this.domain.FindSecurityByFigi(figi));
+                }
+
+                // In order to show that these baskets are going through compliance, we're going to add a stock that violates the tabacco list
+                // restriction at predictable intervals.  This should give us 1 violation for every 10 accounts.
+                if (accountCounter % 10 == 0)
+                {
+                    int index = this.random.Next(0, TradingViewModel.SinStocks.Count);
+                    basket.Add(this.domain.FindSecurityByFigi(TradingViewModel.SinStocks[index]));
+                }
+
+                // Create a source order for every issue in the basket.
+                foreach (Security security in basket)
+                {
+                    Price price = this.domain.FindPriceByFigi(security.Figi);
+                    this.bulkAccountBasket.Add(
                         new SourceOrder
                         {
-                            AccountId = china.AccountId,
+                            AccountId = account.AccountId,
                             OrderTypeCode = OrderTypeCode.Market,
-                            Quantity = Convert.ToDecimal(Math.Floor(Convert.ToDouble(managedAccount.NetAssetValue) * 0.01d / (100.0d * Convert.ToDouble(price.ClosePrice))) * 100.0d),
+                            Quantity = this.random.Next(100, 1000),
                             SecurityId = security.SecurityId,
-                            SideCode = this.random.Next(0, 2) == 0 ? SideCode.Sell : SideCode.Buy,
+                            SideCode = sideDictionary[security.Figi],
                             TimeInForce = TimeInForceCode.Day,
                         });
                 }
-
-                // We don't want to clutter the blotter with a bunch of orders that look like they can be crossed.  So when we create a random order
-                // for a security, all the other random orders for that security will have the same side.  This dictionary insures that each order
-                // for a name has the same side as every other order for that name.
-                Dictionary<string, SideCode> sideDictionary = new Dictionary<string, SideCode>();
-                TradingViewModel.BulkAccount.ForEach(f => sideDictionary.Add(f, this.random.Next(0, 2) == 0 ? SideCode.Buy : SideCode.Sell));
-                TradingViewModel.SinStocks.ForEach(f => sideDictionary.Add(f, this.random.Next(0, 2) == 0 ? SideCode.Buy : SideCode.Sell));
-
-                // For the bulk account scenario, create a basket of the top 100 stocks by market value for the first 30 accounts.
-                var accounts = (from a in this.domain.Accounts
-                                where a.AccountTypeCode == AccountTypeCode.ManagedAccount && !TradingViewModel.RestrictedAccounts.Contains(a.Mnemonic)
-                                select a)
-                                .Take(100)
-                                .ToList();
-                for (int accountCounter = 0; accountCounter < accounts.Count; accountCounter++)
-                {
-                    // Create a basket of optimized orders for the next account.
-                    Account account = accounts[accountCounter];
-
-                    // Create a random basket of 50 securities that represent a optimization reblancing.
-                    HashSet<Security> basket = new HashSet<Security>();
-                    int basketSize = this.random.Next(20, 30);
-                    while (basket.Count < basketSize)
-                    {
-                        int index = this.random.Next(0, TradingViewModel.BulkAccount.Count);
-                        string figi = TradingViewModel.BulkAccount[index];
-
-                        // This security is now part of the randomly constructed basket.
-                        basket.Add(this.domain.FindSecurityByFigi(figi));
-                    }
-
-                    // In order to show that these baskets are going through compliance, we're going to add a stock that violates the tabacco list
-                    // restriction at predictable intervals.  This should give us 1 violation for every 10 accounts.
-                    if (accountCounter % 10 == 0)
-                    {
-                        int index = this.random.Next(0, TradingViewModel.SinStocks.Count);
-                        basket.Add(this.domain.FindSecurityByFigi(TradingViewModel.SinStocks[index]));
-                    }
-
-                    // Create a source order for every issue in the basket.
-                    foreach (Security security in basket)
-                    {
-                        Price price = this.domain.FindPriceByFigi(security.Figi);
-                        this.bulkAccountBasket.Add(
-                            new SourceOrder
-                            {
-                                AccountId = account.AccountId,
-                                OrderTypeCode = OrderTypeCode.Market,
-                                Quantity = this.random.Next(100, 1000),
-                                SecurityId = security.SecurityId,
-                                SideCode = sideDictionary[security.Figi],
-                                TimeInForce = TimeInForceCode.Day,
-                            });
-                    }
-                }
-            });
+            }
         }
 
         /// <summary>

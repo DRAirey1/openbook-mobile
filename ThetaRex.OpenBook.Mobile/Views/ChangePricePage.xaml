@@ -1,0 +1,61 @@
+﻿<ContentPage x:Class="ThetaRex.OpenBook.Mobile.Views.ChangePricePage"
+			 Title="{Binding Title}"
+			 xmlns:tromc="clr-namespace:ThetaRex.OpenBook.Mobile.Controls"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns="http://xamarin.com/schemas/2014/forms">
+	<StackLayout Padding="10">
+		<Grid Padding="10">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="0.25*"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
+			<Label FontSize="18"
+				   HorizontalOptions="End"
+				   Text="Ticker:"/>
+			<Picker Grid.Column="1"
+					ItemDisplayBinding="{Binding Item2}"
+					ItemsSource="{Binding Tickers}"
+					SelectedItem="{Binding SelectedItem}"/>
+		</Grid>
+		<Grid Padding="10">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="0.25*"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
+			<Label FontSize="18"
+				   HorizontalOptions="End"
+				   Text="Price:"/>
+			<tromc:CurrencyControl Current="{Binding Price}"
+								   FontSize="18"
+								   Grid.Column="1"/>
+		</Grid>
+		<Grid Padding="10">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="0.15*"/>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="0.15*"/>
+			</Grid.ColumnDefinitions>
+			<tromc:CurrencyControl Current="{Binding MinimumPrice}"
+								   VerticalOptions="Center"/>
+			<tromc:CurrencySlider Grid.Column="1"
+								  Maximum="{Binding MaximumPrice}"
+								  MaximumTrackColor="Black"
+								  Minimum="{Binding MinimumPrice}"
+								  MinimumTrackColor="Black"
+								  Value="{Binding Price}"/>
+			<tromc:CurrencyControl Current="{Binding MaximumPrice}"
+								   Grid.Column="2"
+								   VerticalOptions="Center"/>
+		</Grid>
+		<Button Command="{Binding ChangeCommand}"
+				Margin="10"
+				Text="{Binding ChangeLabel}"/>
+		<Button Command="{Binding ResetCommand}"
+				Margin="10"
+				Text="{Binding ResetLabel}"/>
+		<Button Command="{Binding ResetAllCommand}"
+				IsEnabled="{Binding IsResetAllEnabled}"
+				Margin="10"
+				Text="{Binding ResetAllLabel}"/>
+	</StackLayout>
+</ContentPage>

@@ -45,36 +45,38 @@ namespace ThetaRex.OpenBook.Mobile.Views
         /// <summary>
         /// Initializes a new instance of the <see cref="MainPage"/> class.
         /// </summary>
-        /// <param name="httpClient">The HTTP client used to communicate with the service.</param>
-        /// <param name="mainViewModel">The view model for the main page.</param>
-        /// <param name="masterPage">The view for the master in the master-detail view.</param>
-        /// <param name="packageInfo">Information about the package.</param>
-        /// <param name="navigator">The translation between view model navigation and view navigation.</param>
-        /// <param name="repository">The repository where data is read and written.</param>
-        /// <param name="user">The identity of the current user.</param>
         /// <param name="aboutPage">The 'About' page.</param>
         /// <param name="bulkOperationPage">The bulk opreations scenarios page.</param>
+        /// <param name="changePricePage">The price change scenario page.</param>
+        /// <param name="httpClient">The HTTP client used to communicate with the service.</param>
         /// <param name="iborPage">The IBOR scenario page.</param>
         /// <param name="industryConcentrationPage">The industry concentration scenario page.</param>
-        /// <param name="scenarioPage">The main page for selecting a scenario.</param>
+        /// <param name="mainViewModel">The view model for the main page.</param>
+        /// <param name="masterPage">The view for the master in the master-detail view.</param>
+        /// <param name="navigator">The translation between view model navigation and view navigation.</param>
+        /// <param name="packageInfo">Information about the package.</param>
+        /// <param name="repository">The repository where data is read and written.</param>
         /// <param name="restrictedListPage">The restricted list scenario page.</param>
         /// <param name="ruleParameterPage">The rule parameter scenario page.</param>
+        /// <param name="scenarioPage">The main page for selecting a scenario.</param>
         /// <param name="singleAccountPage">The single issue scenarios page.</param>
         /// <param name="tradingPage">The trading scenario page.</param>
+        /// <param name="user">The identity of the current user.</param>
         public MainPage(
             AboutPage aboutPage,
             BulkAccountPage bulkOperationPage,
+            ChangePricePage changePricePage,
             HttpClient<OpenBookHost> httpClient,
             IborPage iborPage,
             IndustryConcentrationPage industryConcentrationPage,
-            ScenarioPage scenarioPage,
             MainViewModel mainViewModel,
             MasterPage masterPage,
-            PackageInfo packageInfo,
             Navigator navigator,
+            PackageInfo packageInfo,
             IRepository repository,
             RestrictedListPage restrictedListPage,
             RuleParameterPage ruleParameterPage,
+            ScenarioPage scenarioPage,
             SingleAccountPage singleAccountPage,
             TradingPage tradingPage,
             User user)
@@ -124,6 +126,7 @@ namespace ThetaRex.OpenBook.Mobile.Views
             navigator.PageMap.Add(typeof(RuleParameterViewModel), ruleParameterPage);
             navigator.PageMap.Add(typeof(SingleAccountViewModel), singleAccountPage);
             navigator.PageMap.Add(typeof(TradingViewModel), tradingPage);
+            navigator.PageMap.Add(typeof(ChangePriceViewModel), changePricePage);
 
             // Authenticate the user and initialize the data domain in a background task.
             Task task = Task.Run(this.InitializeDataDomainAsync);

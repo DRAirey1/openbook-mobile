@@ -22,6 +22,7 @@ namespace ThetaRex.OpenBook.Mobile.Common
             return serviceCollection
                 .AddSingleton<Domain>()
                 .AddSingleton<AboutViewModel>()
+                .AddSingleton<ChangePriceViewModel>()
                 .AddSingleton<BulkAccountViewModel>()
                 .AddSingleton<IborViewModel>()
                 .AddSingleton<IndustryConcentrationViewModel>()

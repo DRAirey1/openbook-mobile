@@ -62,4 +62,10 @@
     <ProjectReference Include="..\ThetaRex.OpenBook.Mobile.Common\ThetaRex.OpenBook.Mobile.Common.csproj" />
     <ProjectReference Include="..\ThetaRex.OpenBook.Mobile.Repository\ThetaRex.OpenBook.Mobile.Repository.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\ChangePricePage.xaml.cs">
+      <DependentUpon>ChangePricePage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

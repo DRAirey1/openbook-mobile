@@ -1018,13 +1018,13 @@ namespace ThetaRex.OpenBook.Mobile.Repository
         }
 
         /// <inheritdoc/>
-        public async Task<Price> GetPriceByExternalIdAsync(string externalId, CancellationToken cancellationToken = default)
+        public async Task<Price> GetPriceAsync(int priceId, CancellationToken cancellationToken = default)
         {
-            // Call the API to add a batch of stamped (time and user stamped) proposed order.
-            var requestUri = $"rest/prices/priceExternalKey/{externalId}";
+            var requestUri = $"rest/prices/priceKey/{priceId}";
             Price price = null;
             try
             {
+                // Call the REST API to get the requested price.
                 using (HttpResponseMessage response = await this.httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
                 {
                     // Make sure we were successful and, if so, parse the JSON data into a structure.
@@ -1445,6 +1445,60 @@ namespace ThetaRex.OpenBook.Mobile.Repository
 
             // This is the realized list updated classification benchmarks.
             return realizedCategoryBenchmarks;
+        }
+
+        /// <inheritdoc/>
+        public async Task UpdatePriceAsync(Price price, CancellationToken cancellationToken)
+        {
+            try
+            {
+                // Send the prices to the web service.
+                using (var request = new HttpRequestMessage(HttpMethod.Put, $"rest/prices/priceKey/{price.PriceId}"))
+                using (request.Content = CreateHttpContent(price))
+                {
+                    request.Headers.Add("If-None-Match", $"\"{price.RowVersion}\"");
+                    using (HttpResponseMessage response = await this.httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false))
+                    {
+                        response.EnsureSuccessStatusCode();
+                    }
+                }
+            }
+            catch (HttpRequestException)
+            {
+            }
+            catch (TaskCanceledException)
+            {
+            }
+            catch (AggregateException)
+            {
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task UpdatePriceAsync(IEnumerable<Price> prices, CancellationToken cancellationToken)
+        {
+            // Validate the argument
+            if (prices == null)
+            {
+                throw new ArgumentNullException(nameof(prices));
+            }
+
+            try
+            {
+                // Send the batch of prices to the web service.
+                using (var request = new HttpRequestMessage(HttpMethod.Put, "transaction/prices"))
+                using (request.Content = CreateHttpContent(prices))
+                using (HttpResponseMessage response = await this.httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false))
+                {
+                    response.EnsureSuccessStatusCode();
+                }
+            }
+            catch (HttpRequestException)
+            {
+            }
+            catch (AggregateException)
+            {
+            }
         }
 
         /// <summary>

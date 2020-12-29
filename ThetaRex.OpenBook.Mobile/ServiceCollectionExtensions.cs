@@ -24,6 +24,7 @@ namespace ThetaRex.OpenBook.Mobile
                 .AddSingleton<AboutPage>()
                 .AddSingleton<App>()
                 .AddSingleton<BulkAccountPage>()
+                .AddSingleton<ChangePricePage>()
                 .AddSingleton<IborPage>()
                 .AddSingleton<IndustryConcentrationPage>()
                 .AddSingleton<MainPage>()

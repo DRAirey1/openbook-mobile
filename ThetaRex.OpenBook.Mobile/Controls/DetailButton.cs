@@ -17,7 +17,7 @@ namespace ThetaRex.OpenBook.Mobile.Controls
         /// The Command property.
         /// </summary>
         public static readonly BindableProperty CommandProperty = BindableProperty.Create(
-            nameof(Command),
+            nameof(DetailButton.Command),
             typeof(ICommand),
             typeof(DetailButton));
 
@@ -25,7 +25,7 @@ namespace ThetaRex.OpenBook.Mobile.Controls
         /// The Command property.
         /// </summary>
         public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(
-            nameof(CommandParameter),
+            nameof(DetailButton.CommandParameter),
             typeof(object),
             typeof(DetailButton));
 
@@ -33,7 +33,7 @@ namespace ThetaRex.OpenBook.Mobile.Controls
         /// The Description property.
         /// </summary>
         public static readonly BindableProperty DescriptionProperty = BindableProperty.Create(
-            nameof(Description),
+            nameof(DetailButton.Description),
             typeof(string),
             typeof(DetailButton));
 
@@ -41,7 +41,7 @@ namespace ThetaRex.OpenBook.Mobile.Controls
         /// The Label property.
         /// </summary>
         public static readonly BindableProperty LabelProperty = BindableProperty.Create(
-            nameof(Label),
+            nameof(DetailButton.Label),
             typeof(string),
             typeof(DetailButton));
 
@@ -90,32 +90,6 @@ namespace ThetaRex.OpenBook.Mobile.Controls
         {
             get => this.GetValue(DetailButton.LabelProperty) as string;
             set => this.SetValue(DetailButton.LabelProperty, value);
-        }
-
-        /// <summary>
-        /// Handles a change to the Command property.
-        /// </summary>
-        /// <param name="bindable">The bindable object that contains the property.</param>
-        /// <param name="oldValue">The old property value.</param>
-        /// <param name="newValue">The new property value.</param>
-        private static void OnCommandPropertyChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            DetailButton commandCell = bindable as DetailButton;
-            ICommand newCommand = newValue as ICommand;
-            ICommand oldCommand = oldValue as ICommand;
-            if (newValue == null)
-            {
-                oldCommand.CanExecuteChanged -= commandCell.OnCanExecuteChanged;
-            }
-            else
-            {
-                newCommand.CanExecuteChanged += commandCell.OnCanExecuteChanged;
-            }
-        }
-
-        private void OnCanExecuteChanged(object sender, EventArgs e)
-        {
-            this.IsEnabled = false;
         }
 
         /// <summary>
