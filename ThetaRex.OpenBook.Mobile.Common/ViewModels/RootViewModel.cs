@@ -127,6 +127,8 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
                     Command = new Command(async () => await this.navigator.PushAsync(typeof(ChangePriceViewModel)).ConfigureAwait(true)),
                     Description = this.stringLocalizer["ChangePriceDescription"],
                     InactiveLabel = this.stringLocalizer["ChangePriceLabel"],
+                    IsEnabled = false,
+                    Scenario = Scenario.GoToChangePrice,
                 });
 
             // When the data domain is initialized, we can enable the scenarios that depend on web service data.
@@ -141,6 +143,7 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
                     this.Items[Scenario.GoToBulkAccount].IsEnabled = true;
                     this.Items[Scenario.GoToRuleParameters].IsEnabled = true;
                     this.Items[Scenario.GoToTrading].IsEnabled = true;
+                    this.Items[Scenario.GoToChangePrice].IsEnabled = true;
                 });
             });
         }

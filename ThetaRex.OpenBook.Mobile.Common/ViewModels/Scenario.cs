@@ -80,6 +80,11 @@ namespace ThetaRex.OpenBook.Mobile.Common.ViewModels
         GoToSingleAccount,
 
         /// <summary>
+        /// Navigate to the change stock price scenarios.
+        /// </summary>
+        GoToChangePrice,
+
+        /// <summary>
         /// Navigate to the trading scenarios.
         /// </summary>
         GoToTrading,
